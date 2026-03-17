@@ -22,6 +22,7 @@
         .note-wrap { margin-top: 16px; }
         .note-box { border: 1px solid #d9e3ed; border-radius: 6px; padding: 8px; min-height: 64px; }
         .footer { margin-top: 22px; border-top: 1px dashed #c9d7e4; padding-top: 8px; font-size: 10px; color: #4e6278; text-align: center; }
+        .debug { margin-top: 8px; font-size: 9px; color: #7f1d1d; text-align: left; border: 1px dashed #fca5a5; background: #fff1f2; padding: 6px; }
     </style>
 </head>
 <body>
@@ -127,6 +128,12 @@
 
     <div class="footer">
         System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | Ori Studio Limited Business Docs
+
+        @if (config('app.debug'))
+            <div class="debug">
+                LOGO DEBUG: gd={{ $logo_debug['gd_loaded'] ?? 'no' }}, uploaded={{ $logo_debug['uploaded'] ?? 'no' }}, source={{ $logo_debug['source_used'] ?? 'none' }}, path_exists={{ $logo_debug['abs_path_exists'] ?? 'no' }}, mime={{ $logo_debug['mime'] ?? '-' }}, bytes={{ $logo_debug['bytes'] ?? 0 }}
+            </div>
+        @endif
     </div>
 </body>
 </html>
