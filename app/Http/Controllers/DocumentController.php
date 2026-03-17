@@ -65,31 +65,17 @@ class DocumentController extends Controller
         $validated['vat_amount'] = $vatAmount;
         $validated['grand_total'] = $grandTotal;
         $validated['generated_at'] = now()->format('Y-m-d H:i:s');
-        $validated['logo_debug'] = [
-            'gd_loaded' => extension_loaded('gd') ? 'yes' : 'no',
-            'uploaded' => $request->hasFile('logo') ? 'yes' : 'no',
-            'source_used' => 'none',
-            'abs_path_exists' => 'no',
-            'mime' => '-',
-            'bytes' => 0,
-        ];
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $validated['logo_debug']['mime'] = (string) $file->getMimeType();
-            $validated['logo_debug']['bytes'] = (int) $file->getSize();
-
             if (extension_loaded('gd')) {
                 $path = (string) $file->getRealPath();
                 $validated['logo_abs_path'] = $path;
-                $validated['logo_debug']['abs_path_exists'] = is_file($path) ? 'yes' : 'no';
+                $validated['logo_file_uri'] = 'file:///' . ltrim(str_replace('\\', '/', $path), '/');
 
                 $fileContents = file_get_contents($path);
                 if ($fileContents !== false) {
                     $validated['logo_data_uri'] = 'data:' . $file->getMimeType() . ';base64,' . base64_encode($fileContents);
-                    $validated['logo_debug']['source_used'] = 'abs_path+data_uri';
-                } else {
-                    $validated['logo_debug']['source_used'] = 'abs_path_only';
                 }
             }
         }

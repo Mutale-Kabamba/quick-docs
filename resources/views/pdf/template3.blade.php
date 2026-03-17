@@ -8,7 +8,7 @@
         .header { border-bottom: 2px solid #0b5c49; padding-bottom: 12px; margin-bottom: 16px; }
         .header td { vertical-align: top; }
         .title { text-align: right; font-size: 24px; font-weight: bold; letter-spacing: 1px; color: #0b5c49; }
-        .logo { width: 64px; height: 64px; object-fit: contain; border: 1px solid #dbe5ee; padding: 4px; border-radius: 6px; }
+        .logo { width: 64px; height: 64px; object-fit: contain; }
         .meta-wrap { margin-bottom: 14px; }
         .meta-wrap td { vertical-align: top; }
         .box { border: 1px solid #d9e3ed; border-radius: 6px; padding: 8px; background: #fbfdff; min-height: 90px; }
@@ -22,7 +22,6 @@
         .note-wrap { margin-top: 16px; }
         .note-box { border: 1px solid #d9e3ed; border-radius: 6px; padding: 8px; min-height: 64px; }
         .footer { margin-top: 22px; border-top: 1px dashed #c9d7e4; padding-top: 8px; font-size: 10px; color: #4e6278; text-align: center; }
-        .debug { margin-top: 8px; font-size: 9px; color: #7f1d1d; text-align: left; border: 1px dashed #fca5a5; background: #fff1f2; padding: 6px; }
     </style>
 </head>
 <body>
@@ -38,10 +37,12 @@
                     @if(!empty($seller_email))<div>{{ $seller_email }}</div>@endif
                 </td>
                 <td style="width: 26%; text-align: right;">
-                    @if(!empty($logo_abs_path))
-                        <img src="{{ $logo_abs_path }}" class="logo" alt="logo" />
-                    @elseif(!empty($logo_data_uri))
-                        <img src="{{ $logo_data_uri }}" class="logo" alt="logo" />
+                    @if(!empty($logo_data_uri))
+                        <img src="{{ $logo_data_uri }}" class="logo" alt="logo" style="display:block; margin-left:auto;" />
+                    @elseif(!empty($logo_file_uri))
+                        <img src="{{ $logo_file_uri }}" class="logo" alt="logo" style="display:block; margin-left:auto;" />
+                    @elseif(!empty($logo_abs_path))
+                        <img src="{{ $logo_abs_path }}" class="logo" alt="logo" style="display:block; margin-left:auto;" />
                     @endif
                 </td>
             </tr>
@@ -128,12 +129,6 @@
 
     <div class="footer">
         System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | Ori Studio Limited Business Docs
-
-        @if (config('app.debug'))
-            <div class="debug">
-                LOGO DEBUG: gd={{ $logo_debug['gd_loaded'] ?? 'no' }}, uploaded={{ $logo_debug['uploaded'] ?? 'no' }}, source={{ $logo_debug['source_used'] ?? 'none' }}, path_exists={{ $logo_debug['abs_path_exists'] ?? 'no' }}, mime={{ $logo_debug['mime'] ?? '-' }}, bytes={{ $logo_debug['bytes'] ?? 0 }}
-            </div>
-        @endif
     </div>
 </body>
 </html>
