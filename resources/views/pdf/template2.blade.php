@@ -20,14 +20,14 @@
     <table>
         <tr>
             <td style="width: 60%; vertical-align: top;">
-                <h2 style="margin:0; color:#1f497d;">Ori Studio Limited</h2>
-                Livingstone, Zambia<br>Phone: +260 XXX XXX<br>hello@oristudio.com
+                <h2 style="margin:0; color:#1f497d;">{{ $seller_name ?? 'Ori Studio Limited' }}</h2>
+                {{ $seller_address }}<br>Phone: {{ $seller_phone }}<br>{{ $seller_email }}
             </td>
             <td style="width: 40%; vertical-align: top;">
                 <div class="title">{{ strtoupper($doc_type) }}</div><br>
                 <table>
                     <tr><td class="box-header">DATE</td><td class="box-header">{{ strtoupper($doc_type) }} #</td></tr>
-                    <tr><td class="box-cell">{{ \Carbon\Carbon::parse($date)->format('m/d/Y') }}</td><td class="box-cell">2034</td></tr>
+                    <tr><td class="box-cell">{{ \Carbon\Carbon::parse($quote_date)->format('m/d/Y') }}</td><td class="box-cell">{{ $quote_no }}</td></tr>
                 </table>
             </td>
         </tr>
@@ -35,8 +35,8 @@
 
     <div class="section-title" style="width: 40%;">CUSTOMER INFO</div>
     <div class="bordered-box" style="width: 38%;">
-        <strong>{{ $client_name }}</strong><br>
-        [Client Address]<br>[City, ZIP]
+        <strong>{{ $customer_name }}</strong><br>
+        {{ $customer_address }}<br>{{ $customer_email }}
     </div>
 
     <table class="items-table" style="border-bottom: 1px solid #000;">
@@ -53,8 +53,8 @@
             <tr>
                 <td>{{ $item['description'] }}</td>
                 <td style="text-align: center;">{{ $item['qty'] }}</td>
-                <td style="text-align: right;">{{ number_format($item['price'], 2) }}</td>
-                <td style="text-align: right;">{{ number_format($item['line_total'], 2) }}</td>
+                <td style="text-align: right;">ZMW {{ number_format($item['price'], 2) }}</td>
+                <td style="text-align: right;">ZMW {{ number_format($item['line_total'], 2) }}</td>
             </tr>
             @endforeach
             <tr><td colspan="4" style="height: 50px;"></td></tr> 
@@ -63,9 +63,35 @@
 
     <table style="width: 40%; float: right; margin-top: -1px;">
         <tr>
+            <td class="totals-box" style="background-color: #e8e8e8;">Subtotal</td>
+            <td class="totals-box" style="text-align: right;">ZMW {{ number_format($sub_total, 2) }}</td>
+        </tr>
+        @if($vat_registered)
+        <tr>
+            <td class="totals-box" style="background-color: #e8e8e8;">VAT ({{ $vat_rate }}%)</td>
+            <td class="totals-box" style="text-align: right;">ZMW {{ number_format($vat_amount, 2) }}</td>
+        </tr>
+        @endif
+        <tr>
             <td class="totals-box" style="background-color: #d9d9d9;">TOTAL {{ strtoupper($doc_type) }}</td>
             <td class="totals-box" style="text-align: right;">ZMW {{ number_format($grand_total, 2) }}</td>
         </tr>
     </table>
+
+    <div style="clear: both; margin-top: 40px;">
+        @if(!empty($payment_details))
+        <strong>Payment Details:</strong>
+        <p style="white-space: pre-wrap; font-size: 11px;">{{ $payment_details }}</p>
+        @endif
+
+        @if(!empty($terms_conditions))
+        <strong>Terms & Conditions:</strong>
+        <p style="white-space: pre-wrap; font-size: 11px;">{{ $terms_conditions }}</p>
+        @endif
+    </div>
+
+    <div style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #ddd; font-size: 9px; color: #888;">
+        System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | {{ $seller_name ?? 'Ori Studio Limited' }} Business Docs
+    </div>
 </body>
 </html>

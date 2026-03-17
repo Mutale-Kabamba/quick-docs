@@ -20,8 +20,8 @@
     <table class="header-table">
         <tr>
             <td>
-                <h2>Ori Studio Limited</h2>
-                <p>1234 Design Street<br>Livingstone, Zambia<br>hello@oristudio.com</p>
+                <h2>{{ $seller_name ?? 'Ori Studio Limited' }}</h2>
+                <p>{{ $seller_address }}<br>{{ $seller_phone }}<br>{{ $seller_email }}</p>
             </td>
             <td class="doc-title theme-color">
                 {{ strtoupper($doc_type) }}
@@ -33,13 +33,13 @@
         <tr>
             <td style="width: 50%;">
                 <strong class="theme-color">Bill To</strong><br>
-                <span style="font-size: 18px;">{{ $client_name }}</span><br>
-                Client Address/Details Here
+                <span style="font-size: 18px;">{{ $customer_name }}</span><br>
+                {{ $customer_address }}<br>{{ $customer_email }}
             </td>
             <td style="width: 50%;">
                 <table>
-                    <tr><td style="text-align: right; font-weight: bold;" class="theme-color">{{ $doc_type }} Date:</td><td style="text-align: right;">{{ \Carbon\Carbon::parse($date)->format('d-m-Y') }}</td></tr>
-                    <tr><td style="text-align: right; font-weight: bold;" class="theme-color">{{ $doc_type }} #:</td><td style="text-align: right;">000123</td></tr>
+                    <tr><td style="text-align: right; font-weight: bold;" class="theme-color">{{ $doc_type }} Date:</td><td style="text-align: right;">{{ \Carbon\Carbon::parse($quote_date)->format('d-m-Y') }}</td></tr>
+                    <tr><td style="text-align: right; font-weight: bold;" class="theme-color">{{ $doc_type }} #:</td><td style="text-align: right;">{{ $quote_no }}</td></tr>
                 </table>
             </td>
         </tr>
@@ -67,8 +67,29 @@
     </table>
 
     <table class="totals-table">
-        <tr><td>Subtotal</td><td style="text-align: right;">ZMW {{ number_format($grand_total, 2) }}</td></tr>
+        <tr><td>Subtotal</td><td style="text-align: right;">ZMW {{ number_format($sub_total, 2) }}</td></tr>
+        @if($vat_registered)
+        <tr><td>VAT ({{ $vat_rate }}%)</td><td style="text-align: right;">ZMW {{ number_format($vat_amount, 2) }}</td></tr>
+        @endif
         <tr><td class="grand-total">Total</td><td class="grand-total" style="text-align: right;">ZMW {{ number_format($grand_total, 2) }}</td></tr>
     </table>
+
+    @if(!empty($payment_details))
+    <div style="clear: both; margin-top: 40px;">
+        <strong>Payment Details:</strong>
+        <p style="white-space: pre-wrap; font-size: 12px;">{{ $payment_details }}</p>
+    </div>
+    @endif
+
+    @if(!empty($terms_conditions))
+    <div style="margin-top: 20px;">
+        <strong>Terms & Conditions:</strong>
+        <p style="white-space: pre-wrap; font-size: 12px;">{{ $terms_conditions }}</p>
+    </div>
+    @endif
+
+    <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 10px; color: #666;">
+        System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | {{ $seller_name ?? 'Ori Studio Limited' }} Business Docs
+    </div>
 </body>
 </html>

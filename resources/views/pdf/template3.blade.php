@@ -123,7 +123,7 @@
                     <div class="box-title">Payment Details</div>
                     @php
                         $hasBank = !empty($bank_name) || !empty($account_name) || !empty($account_no) || !empty($branch) || !empty($branch_code) || !empty($sort_code) || !empty($swift_code);
-                        $hasMobile = !empty($mobile_network_provider);
+                        $hasMobile = !empty($mobile_network_provider) || !empty($mobile_phone_no) || !empty($mobile_account_name);
                     @endphp
 
                     @if ($hasBank)
@@ -143,7 +143,9 @@
 
                     @if ($hasMobile)
                         <strong>Mobile Money</strong><br>
-                        <div>Network Provider: {{ $mobile_network_provider }}</div>
+                        @if(!empty($mobile_network_provider))<div>Network Provider: {{ $mobile_network_provider }}</div>@endif
+                        @if(!empty($mobile_phone_no))<div>Phone No: {{ $mobile_phone_no }}</div>@endif
+                        @if(!empty($mobile_account_name))<div>Account Name: {{ $mobile_account_name }}</div>@endif
                     @endif
                 </div>
             </td>

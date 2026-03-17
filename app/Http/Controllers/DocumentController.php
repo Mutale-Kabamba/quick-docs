@@ -19,6 +19,12 @@ class DocumentController extends Controller
 
     public function generate(Request $request)
     {
+        // Custom validation messages
+        $messages = [
+            'bank_name_other.required_if' => 'Please specify your bank name when selecting "Other".',
+            'mobile_phone_no.required_if' => 'Mobile phone number is required when a network provider is selected.',
+        ];
+
         $validated = $request->validate([
             'doc_type' => 'required|in:Quotation,Invoice,Receipt',
             'template' => 'nullable|in:1,2,3',
@@ -40,18 +46,42 @@ class DocumentController extends Controller
             'vat_rate' => 'nullable|numeric|min:0|max:100',
             'terms_conditions' => 'nullable|string|max:3000',
             'bank_name' => 'nullable|string|max:255',
+            'bank_name_other' => 'nullable|required_if:bank_name,Other|string|max:255',
             'account_name' => 'nullable|string|max:255',
             'account_no' => 'nullable|string|max:255',
             'branch' => 'nullable|string|max:255',
             'branch_code' => 'nullable|string|max:255',
             'sort_code' => 'nullable|string|max:255',
             'swift_code' => 'nullable|string|max:255',
-            'mobile_network_provider' => 'nullable|string|max:255',
+            'mobile_network_provider' => 'nullable|in:MTN,Airtel,Zamtel',
+            'mobile_phone_no' => [
+                'nullable',
+                'required_if:mobile_network_provider,MTN,Airtel,Zamtel',
+                function ($attribute, $value, $fail) use ($request) {
+                    if (empty($value)) {
+                        return;
+                    }
+                    
+                    $provider = $request->input('mobile_network_provider');
+                    $patterns = [
+                        'MTN' => '/^(096|076|056)\d{7}$/',
+                        'Airtel' => '/^(097|077|057)\d{7}$/',
+                        'Zamtel' => '/^(095|075|055)\d{7}$/'
+                    ];
+                    
+                    if ($provider && isset($patterns[$provider])) {
+                        if (!preg_match($patterns[$provider], $value)) {
+                            $fail("Invalid mobile phone number format for $provider.");
+                        }
+                    }
+                }
+            ],
+            'mobile_account_name' => 'nullable|string|max:255',
             'items' => 'required|array|min:1',
             'items.*.description' => 'required|string',
             'items.*.qty' => 'required|numeric|min:1',
             'items.*.price' => 'required|numeric|min:0',
-        ]);
+        ], $messages);
 
         $template = $validated['template'] ?? '3';
         $vatRate = isset($validated['vat_rate']) ? (float) $validated['vat_rate'] : 16.0;
@@ -73,8 +103,16 @@ class DocumentController extends Controller
         $validated['grand_total'] = $grandTotal;
         $validated['generated_at'] = now()->format('Y-m-d H:i:s');
 
+        // Use bank_name_other if bank_name is "Other"
+        $finalBankName = ($validated['bank_name'] === 'Other') 
+            ? ($validated['bank_name_other'] ?? '')
+            : ($validated['bank_name'] ?? '');
+        
+        // Update bank_name to the actual name for PDF generation
+        $validated['bank_name'] = $finalBankName;
+
         $bankFields = array_filter([
-            'Bank Name: ' . ($validated['bank_name'] ?? ''),
+            'Bank Name: ' . $finalBankName,
             'Account Name: ' . ($validated['account_name'] ?? ''),
             'Account No: ' . ($validated['account_no'] ?? ''),
             'Branch: ' . ($validated['branch'] ?? ''),
@@ -87,6 +125,8 @@ class DocumentController extends Controller
 
         $mobileFields = array_filter([
             'Network Provider: ' . ($validated['mobile_network_provider'] ?? ''),
+            'Phone No: ' . ($validated['mobile_phone_no'] ?? ''),
+            'Account Name: ' . ($validated['mobile_account_name'] ?? ''),
         ], function ($line) {
             return !str_ends_with($line, ': ');
         });

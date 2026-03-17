@@ -82,7 +82,7 @@
         }
 
         .section {
-            padding: 16px;
+            padding: 12px 16px;
             border-bottom: 1px solid #e2e8f0;
         }
 
@@ -91,15 +91,18 @@
         }
 
         .section-title {
-            margin: 0 0 10px;
-            font-size: 1rem;
+            margin: 0 0 8px;
+            font-size: 0.9rem;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #2c3e50;
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(12, minmax(0, 1fr));
-            gap: 10px;
+            gap: 6px;
         }
 
         .col-3 { grid-column: span 3; }
@@ -109,10 +112,12 @@
 
         label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 3px;
             color: var(--ink-soft);
-            font-size: 0.86rem;
-            font-weight: 600;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         input,
@@ -120,16 +125,16 @@
         select {
             width: 100%;
             border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 9px 10px;
-            font-size: 0.93rem;
+            border-radius: 6px;
+            padding: 6px 8px;
+            font-size: 0.85rem;
             font-family: inherit;
             color: var(--ink);
             background: #fff;
         }
 
         textarea {
-            min-height: 84px;
+            min-height: 60px;
             resize: vertical;
         }
 
@@ -154,21 +159,64 @@
 
         th,
         td {
-            padding: 9px;
+            padding: 6px 8px;
             border-bottom: 1px solid #e2e8f0;
+            font-size: 0.83rem;
         }
 
         th {
             text-transform: uppercase;
             letter-spacing: 0.03em;
-            font-size: 0.76rem;
+            font-size: 0.72rem;
             color: #4a5b71;
             background: var(--paper);
             text-align: left;
+            font-weight: 700;
         }
 
         .money {
             text-align: right;
+        }
+
+        .payment-method-section {
+            border: 1px solid #d4dce9;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #f9fafb;
+        }
+
+        .payment-method-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .payment-method-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #2d3e50;
+            letter-spacing: 0.4px;
+            margin: 0 0 8px 0;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #c7d4e2;
+        }
+
+        .other-bank-input {
+            display: none;
+        }
+
+        .other-bank-input.show {
+            display: block;
+        }
+
+        .template-info {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 2px;
+            padding: 6px;
+            background: #f0f5fa;
+            border-radius: 4px;
+            border-left: 3px solid var(--accent);
         }
 
         .row-actions {
@@ -266,81 +314,111 @@
             position: sticky;
             top: 16px;
             align-self: start;
-            padding: 16px;
-            background: #fff;
-            border: 1px solid #d0deea;
-            border-radius: 14px;
-            box-shadow: inset 0 0 0 1px #f2f6fb;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
         .preview-sheet {
             background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 14px;
+            border: 1px solid #d4dce9;
+            border-radius: 10px;
+            padding: 12px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .preview-head {
             display: grid;
             grid-template-columns: 1fr auto;
-            gap: 10px;
-            border-bottom: 1px solid #d9e3ef;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
+            gap: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
         }
 
         .logo-preview {
-            width: 72px;
-            height: 72px;
+            width: 60px;
+            height: 60px;
             object-fit: contain;
             border: 1px solid #d8e4f0;
-            border-radius: 8px;
+            border-radius: 6px;
             background: #f8fbff;
             display: none;
         }
 
         .preview h3 {
             margin: 0;
-            font-size: 1.05rem;
+            font-size: 0.98rem;
+            line-height: 1.3;
         }
 
         .muted {
-            color: #5a6d82;
-            font-size: 0.86rem;
+            color: #666;
+            font-size: 0.78rem;
+            line-height: 1.4;
         }
 
         .preview-meta {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
         .preview-box {
-            border: 1px solid #deebf7;
-            border-radius: 8px;
-            padding: 8px;
-            font-size: 0.82rem;
-            background: #fbfdff;
-            min-height: 72px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 6px;
+            font-size: 0.78rem;
+            background: #f9fafb;
+            min-height: auto;
         }
 
         .preview table {
             min-width: 0;
+            margin: 8px 0;
         }
 
         .preview th,
         .preview td {
-            font-size: 0.78rem;
-            padding: 6px;
+            font-size: 0.75rem;
+            padding: 4px 6px;
+        }
+
+        .totals-grid {
+            margin: 6px 0;
+        }
+
+        .totals-grid .line {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            font-size: 0.8rem;
+            padding: 4px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .totals-grid .line strong {
+            font-weight: 700;
         }
 
         .footer-note {
-            border-top: 1px dashed #d4e2ef;
-            margin-top: 10px;
-            padding-top: 8px;
-            font-size: 0.72rem;
-            color: #55697f;
+            border-top: 1px solid #d4e2ef;
+            margin-top: auto;
+            padding-top: 6px;
+            padding-bottom: 0;
+            font-size: 0.68rem;
+            color: #888;
+            line-height: 1.3;
+            flex-shrink: 0;
         }
 
         @media (min-width: 1100px) {
@@ -383,7 +461,6 @@
             <form action="{{ route('generate.pdf') }}" method="POST" enctype="multipart/form-data" class="card" id="quotation-form">
                 @csrf
                 <input type="hidden" name="doc_type" value="Quotation">
-                <input type="hidden" name="template" value="3">
                 <input type="hidden" name="vat_rate" value="16">
 
                 @if ($errors->any())
@@ -396,6 +473,21 @@
                         </ul>
                     </div>
                 @endif
+
+                <section class="section">
+                    <h2 class="section-title">Document Template</h2>
+                    <div class="grid">
+                        <div class="col-12">
+                            <label for="template">Select Template</label>
+                            <select id="template" name="template" required>
+                                <option value="1" {{ old('template') === '1' ? 'selected' : '' }}>Template 1 - Professional</option>
+                                <option value="2" {{ old('template') === '2' ? 'selected' : '' }}>Template 2 - Compact</option>
+                                <option value="3" {{ old('template') === '3' ? 'selected' : '' }} selected>Template 3 - Standard</option>
+                            </select>
+                            <div id="template-info" class="template-info"></div>
+                        </div>
+                    </div>
+                </section>
 
                 <section class="section">
                     <h2 class="section-title">Your Business Details</h2>
@@ -535,38 +627,90 @@
 
                 <section class="section">
                     <h2 class="section-title">Payment Details</h2>
-                    <div class="grid">
-                        <div class="col-12">
-                            <label for="bank_name">Bank Name</label>
-                            <input id="bank_name" name="bank_name" type="text" value="{{ old('bank_name') }}">
+                    
+                    <!-- Bank Details Section -->
+                    <div class="payment-method-section">
+                        <div class="payment-method-title">Bank Transfer</div>
+                        <div class="grid">
+                            <div class="col-12">
+                                <label for="bank_name">Bank Name</label>
+                                <select id="bank_name" name="bank_name">
+                                    <option value="">-- Select Bank --</option>
+                                    
+                                    <optgroup label="Top Commercial Banks">
+                                        <option value="Zanaco (Zambia National Commercial Bank) Plc" {{ old('bank_name') === 'Zanaco (Zambia National Commercial Bank) Plc' ? 'selected' : '' }}>Zanaco (Zambia National Commercial Bank) Plc</option>
+                                        <option value="Absa Bank Zambia Plc" {{ old('bank_name') === 'Absa Bank Zambia Plc' ? 'selected' : '' }}>Absa Bank Zambia Plc</option>
+                                        <option value="Stanbic Bank Zambia Limited" {{ old('bank_name') === 'Stanbic Bank Zambia Limited' ? 'selected' : '' }}>Stanbic Bank Zambia Limited</option>
+                                        <option value="First National Bank (FNB) Zambia Limited" {{ old('bank_name') === 'First National Bank (FNB) Zambia Limited' ? 'selected' : '' }}>First National Bank (FNB) Zambia Limited</option>
+                                        <option value="Standard Chartered Bank Zambia Plc" {{ old('bank_name') === 'Standard Chartered Bank Zambia Plc' ? 'selected' : '' }}>Standard Chartered Bank Zambia Plc</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Other Registered Commercial Banks">
+                                        <option value="Indo-Zambia Bank Limited" {{ old('bank_name') === 'Indo-Zambia Bank Limited' ? 'selected' : '' }}>Indo-Zambia Bank Limited</option>
+                                        <option value="Access Bank Zambia Limited" {{ old('bank_name') === 'Access Bank Zambia Limited' ? 'selected' : '' }}>Access Bank Zambia Limited</option>
+                                        <option value="United Bank for Africa (UBA) Zambia Limited" {{ old('bank_name') === 'United Bank for Africa (UBA) Zambia Limited' ? 'selected' : '' }}>United Bank for Africa (UBA) Zambia Limited</option>
+                                        <option value="Ecobank Zambia Limited" {{ old('bank_name') === 'Ecobank Zambia Limited' ? 'selected' : '' }}>Ecobank Zambia Limited</option>
+                                        <option value="Bank of China (Zambia) Limited" {{ old('bank_name') === 'Bank of China (Zambia) Limited' ? 'selected' : '' }}>Bank of China (Zambia) Limited</option>
+                                        <option value="First Capital Bank Zambia Limited" {{ old('bank_name') === 'First Capital Bank Zambia Limited' ? 'selected' : '' }}>First Capital Bank Zambia Limited</option>
+                                        <option value="Zambia Industrial Commercial Bank (ZICB)" {{ old('bank_name') === 'Zambia Industrial Commercial Bank (ZICB)' ? 'selected' : '' }}>Zambia Industrial Commercial Bank (ZICB)</option>
+                                    </optgroup>
+                                    
+                                    <option value="Other" {{ old('bank_name') === 'Other' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </div>
+                            <div class="col-12 other-bank-input {{ old('bank_name') === 'Other' || old('bank_name_other') ? 'show' : '' }}">
+                                <label for="bank_name_other">Please specify bank name</label>
+                                <input id="bank_name_other" name="bank_name_other" type="text" placeholder="Enter your bank name" value="{{ old('bank_name_other') }}">
+                            </div>
+                            <div class="col-6">
+                                <label for="account_name">Account Name</label>
+                                <input id="account_name" name="account_name" type="text" value="{{ old('account_name') }}">
+                            </div>
+                            <div class="col-6">
+                                <label for="account_no">Account No</label>
+                                <input id="account_no" name="account_no" type="text" value="{{ old('account_no') }}">
+                            </div>
+                            <div class="col-4">
+                                <label for="branch">Branch</label>
+                                <input id="branch" name="branch" type="text" value="{{ old('branch') }}">
+                            </div>
+                            <div class="col-4">
+                                <label for="branch_code">Branch Code</label>
+                                <input id="branch_code" name="branch_code" type="text" value="{{ old('branch_code') }}">
+                            </div>
+                            <div class="col-4">
+                                <label for="sort_code">Sort Code</label>
+                                <input id="sort_code" name="sort_code" type="text" value="{{ old('sort_code') }}">
+                            </div>
+                            <div class="col-6">
+                                <label for="swift_code">Swift Code</label>
+                                <input id="swift_code" name="swift_code" type="text" value="{{ old('swift_code') }}">
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <label for="account_name">Account Name</label>
-                            <input id="account_name" name="account_name" type="text" value="{{ old('account_name') }}">
-                        </div>
-                        <div class="col-6">
-                            <label for="account_no">Account No</label>
-                            <input id="account_no" name="account_no" type="text" value="{{ old('account_no') }}">
-                        </div>
-                        <div class="col-4">
-                            <label for="branch">Branch</label>
-                            <input id="branch" name="branch" type="text" value="{{ old('branch') }}">
-                        </div>
-                        <div class="col-4">
-                            <label for="branch_code">Branch Code</label>
-                            <input id="branch_code" name="branch_code" type="text" value="{{ old('branch_code') }}">
-                        </div>
-                        <div class="col-4">
-                            <label for="sort_code">Sort Code</label>
-                            <input id="sort_code" name="sort_code" type="text" value="{{ old('sort_code') }}">
-                        </div>
-                        <div class="col-6">
-                            <label for="swift_code">Swift Code</label>
-                            <input id="swift_code" name="swift_code" type="text" value="{{ old('swift_code') }}">
-                        </div>
-                        <div class="col-6">
-                            <label for="mobile_network_provider">Mobile Money Network Provider</label>
-                            <input id="mobile_network_provider" name="mobile_network_provider" type="text" value="{{ old('mobile_network_provider') }}">
+                    </div>
+
+                    <!-- Mobile Money Details Section -->
+                    <div class="payment-method-section">
+                        <div class="payment-method-title">Mobile Money</div>
+                        <div class="grid">
+                            <div class="col-6">
+                                <label for="mobile_network_provider">Network Provider</label>
+                                <select id="mobile_network_provider" name="mobile_network_provider">
+                                    <option value="">-- Select Network --</option>
+                                    <option value="MTN" {{ old('mobile_network_provider') === 'MTN' ? 'selected' : '' }}>MTN</option>
+                                    <option value="Airtel" {{ old('mobile_network_provider') === 'Airtel' ? 'selected' : '' }}>Airtel</option>
+                                    <option value="Zamtel" {{ old('mobile_network_provider') === 'Zamtel' ? 'selected' : '' }}>Zamtel</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="mobile_phone_no">Phone No</label>
+                                <input id="mobile_phone_no" name="mobile_phone_no" type="text" placeholder="e.g., 0961234567" value="{{ old('mobile_phone_no') }}">
+                                <small id="phone_hint" style="color: #666; font-size: 0.75rem; display: block; margin-top: 2px;"></small>
+                            </div>
+                            <div class="col-12">
+                                <label for="mobile_account_name">Account Name</label>
+                                <input id="mobile_account_name" name="mobile_account_name" type="text" value="{{ old('mobile_account_name') }}">
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -580,6 +724,11 @@
 
             <aside class="preview">
                 <div class="preview-sheet">
+                    <div class="preview-box" style="margin-bottom: 10px; background: #e8f5e9; border-color: var(--accent);">
+                        <strong style="color: var(--accent);">Template:</strong>
+                        <div id="pv-template" style="font-size: 0.78rem; color: #2d6a4f;">Template 3 - Standard</div>
+                    </div>
+
                     <div class="preview-head">
                         <div>
                             <h3 id="pv-seller-name">Ori Studio Limited</h3>
@@ -709,8 +858,13 @@
             }
 
             function buildPaymentPreviewHtml() {
+                const bankNameSelect = document.getElementById('bank_name').value;
+                const bankNameVal = bankNameSelect === 'Other' 
+                    ? document.getElementById('bank_name_other').value 
+                    : bankNameSelect;
+
                 const bankFields = [
-                    { label: 'Bank Name', value: document.getElementById('bank_name').value },
+                    { label: 'Bank Name', value: bankNameVal },
                     { label: 'Account Name', value: document.getElementById('account_name').value },
                     { label: 'Account No', value: document.getElementById('account_no').value },
                     { label: 'Branch', value: document.getElementById('branch').value },
@@ -721,7 +875,14 @@
                     return (field.value || '').trim() !== '';
                 });
 
-                const mobileProvider = (document.getElementById('mobile_network_provider').value || '').trim();
+                const mobileFields = [
+                    { label: 'Network', value: document.getElementById('mobile_network_provider').value },
+                    { label: 'Phone', value: document.getElementById('mobile_phone_no').value },
+                    { label: 'Account', value: document.getElementById('mobile_account_name').value }
+                ].filter(function (field) {
+                    return (field.value || '').trim() !== '';
+                });
+
                 const parts = [];
 
                 if (bankFields.length) {
@@ -731,8 +892,11 @@
                     parts.push('<strong>Bank</strong><br>' + bankLines);
                 }
 
-                if (mobileProvider) {
-                    parts.push('<strong>Mobile Money</strong><br>Network Provider: ' + mobileProvider);
+                if (mobileFields.length) {
+                    const mobileLines = mobileFields.map(function (field) {
+                        return field.label + ': ' + field.value;
+                    }).join('<br>');
+                    parts.push('<strong>Mobile Money</strong><br>' + mobileLines);
                 }
 
                 return parts.join('<br><br>') || '-';
@@ -839,6 +1003,121 @@
             document.getElementById('quotation-form').addEventListener('input', updatePreview);
             document.getElementById('quotation-form').addEventListener('change', updatePreview);
 
+            // Template selection
+            const templateSelect = document.getElementById('template');
+            const templateInfo = document.getElementById('template-info');
+            const pvTemplate = document.getElementById('pv-template');
+            
+            const templateDescriptions = {
+                '1': 'Professional layout with comprehensive formatting. Best for formal quotations.',
+                '2': 'Compact layout optimized for shorter quotations. Space-efficient design.',
+                '3': 'Standard balanced layout. Recommended for most business documents.'
+            };
+
+            const templateNames = {
+                '1': 'Template 1 - Professional',
+                '2': 'Template 2 - Compact',
+                '3': 'Template 3 - Standard'
+            };
+
+            function updateTemplateInfo() {
+                const selected = templateSelect.value;
+                templateInfo.textContent = 'Selected: ' + templateDescriptions[selected];
+                if (pvTemplate) {
+                    pvTemplate.textContent = templateNames[selected];
+                }
+            }
+
+            templateSelect.addEventListener('change', updateTemplateInfo);
+            updateTemplateInfo();
+
+            // Bank name dropdown handling
+            const bankNameSelect = document.getElementById('bank_name');
+            const otherBankInput = document.querySelector('.other-bank-input');
+
+            function updateBankSelection() {
+                if (bankNameSelect.value === 'Other') {
+                    otherBankInput.classList.add('show');
+                    document.getElementById('bank_name_other').focus();
+                } else {
+                    otherBankInput.classList.remove('show');
+                }
+            }
+
+            bankNameSelect.addEventListener('change', function() {
+                updateBankSelection();
+                updatePreview();
+            });
+
+            updateBankSelection();
+
+            // Mobile phone validation
+            const networkSelect = document.getElementById('mobile_network_provider');
+            const phoneInput = document.getElementById('mobile_phone_no');
+            const phoneHint = document.getElementById('phone_hint');
+
+            const phonePatterns = {
+                'MTN': { pattern: /^(096|076|056)\d{7}$/, hint: 'MTN: Must start with 096, 076, or 056 (10 digits total)' },
+                'Airtel': { pattern: /^(097|077|057)\d{7}$/, hint: 'Airtel: Must start with 097, 077, or 057 (10 digits total)' },
+                'Zamtel': { pattern: /^(095|075|055)\d{7}$/, hint: 'Zamtel: Must start with 095, 075, or 055 (10 digits total)' }
+            };
+
+            function updatePhoneHint() {
+                const provider = networkSelect.value;
+                if (provider && phonePatterns[provider]) {
+                    phoneHint.textContent = phonePatterns[provider].hint;
+                    phoneHint.style.display = 'block';
+                } else {
+                    phoneHint.style.display = 'none';
+                }
+            }
+
+            function validatePhoneNumber() {
+                const provider = networkSelect.value;
+                const phone = phoneInput.value.trim();
+
+                if (!provider || !phone) {
+                    phoneInput.style.borderColor = '';
+                    return true;
+                }
+
+                if (phonePatterns[provider] && !phonePatterns[provider].pattern.test(phone)) {
+                    phoneInput.style.borderColor = '#dc3545';
+                    return false;
+                }
+
+                phoneInput.style.borderColor = '';
+                return true;
+            }
+
+            networkSelect.addEventListener('change', updatePhoneHint);
+            phoneInput.addEventListener('input', validatePhoneNumber);
+            phoneInput.addEventListener('blur', validatePhoneNumber);
+
+            // Validate on form submit
+            document.getElementById('quotation-form').addEventListener('submit', function(e) {
+                const provider = networkSelect.value;
+                const phone = phoneInput.value.trim();
+
+                if (provider && !phone) {
+                    e.preventDefault();
+                    phoneInput.style.borderColor = '#dc3545';
+                    alert('Please enter a mobile phone number for ' + provider);
+                    phoneInput.focus();
+                    return false;
+                }
+
+                if (provider && phone && !validatePhoneNumber()) {
+                    e.preventDefault();
+                    alert('Invalid phone number format for ' + provider + '.\n' + phonePatterns[provider].hint);
+                    phoneInput.focus();
+                    return false;
+                }
+
+                return true;
+            });
+
+            updatePhoneHint();
             updatePreview();
         })();
     </script>
