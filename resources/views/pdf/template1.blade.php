@@ -2,10 +2,24 @@
 <html>
 <head>
     <style>
-        body { font-family: 'Helvetica', Arial, sans-serif; font-size: 14px; color: #111; }
+        body { font-family: 'Helvetica', Arial, sans-serif; font-size: 14px; color: #111; margin-bottom: 70px; }
         .theme-color { color: #004080; }
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; }
+        .logo-wrap { text-align: right; margin-bottom: 8px; }
+        .logo { width: 64px; height: 64px; object-fit: contain; }
+        .logo-fallback {
+            width: 64px;
+            height: 64px;
+            display: inline-block;
+            line-height: 64px;
+            text-align: center;
+            border-radius: 50%;
+            background: #004080;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
         .doc-title { font-size: 36px; font-weight: bold; text-align: right; letter-spacing: 2px; }
         .meta-table { margin-top: 40px; margin-bottom: 40px; }
         .meta-table td { vertical-align: top; }
@@ -14,6 +28,18 @@
         .totals-table { width: 50%; float: right; margin-top: 20px; }
         .totals-table td { padding: 8px; border-bottom: 1px solid #ddd; }
         .totals-table .grand-total { font-weight: bold; color: #004080; border-bottom: 2px solid #004080; }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+            background: #fff;
+        }
     </style>
 </head>
 <body>
@@ -24,6 +50,17 @@
                 <p>{{ $seller_address }}<br>{{ $seller_phone }}<br>{{ $seller_email }}</p>
             </td>
             <td class="doc-title theme-color">
+                <div class="logo-wrap">
+                    @if(!empty($logo_data_uri))
+                        <img src="{{ $logo_data_uri }}" class="logo" alt="logo" />
+                    @elseif(!empty($logo_file_uri))
+                        <img src="{{ $logo_file_uri }}" class="logo" alt="logo" />
+                    @elseif(!empty($logo_abs_path))
+                        <img src="{{ $logo_abs_path }}" class="logo" alt="logo" />
+                    @else
+                        <span class="logo-fallback">OS</span>
+                    @endif
+                </div>
                 {{ strtoupper($doc_type) }}
             </td>
         </tr>
@@ -88,7 +125,7 @@
     </div>
     @endif
 
-    <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 10px; color: #666;">
+    <div class="footer">
         System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | {{ $seller_name ?? 'Ori Studio Limited' }} Business Docs
     </div>
 </body>
