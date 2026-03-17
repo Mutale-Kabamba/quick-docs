@@ -121,7 +121,30 @@
             <td style="width: 50%; padding-left: 8px; vertical-align: top;">
                 <div class="note-box">
                     <div class="box-title">Payment Details</div>
-                    {!! nl2br(e($payment_details ?? '')) !!}
+                    @php
+                        $hasBank = !empty($bank_name) || !empty($account_name) || !empty($account_no) || !empty($branch) || !empty($branch_code) || !empty($sort_code) || !empty($swift_code);
+                        $hasMobile = !empty($mobile_network_provider);
+                    @endphp
+
+                    @if ($hasBank)
+                        <strong>Bank</strong><br>
+                        @if(!empty($bank_name))<div>Bank Name: {{ $bank_name }}</div>@endif
+                        @if(!empty($account_name))<div>Account Name: {{ $account_name }}</div>@endif
+                        @if(!empty($account_no))<div>Account No: {{ $account_no }}</div>@endif
+                        @if(!empty($branch))<div>Branch: {{ $branch }}</div>@endif
+                        @if(!empty($branch_code))<div>Branch Code: {{ $branch_code }}</div>@endif
+                        @if(!empty($sort_code))<div>Sort Code: {{ $sort_code }}</div>@endif
+                        @if(!empty($swift_code))<div>Swift Code: {{ $swift_code }}</div>@endif
+                    @endif
+
+                    @if ($hasBank && $hasMobile)
+                        <br>
+                    @endif
+
+                    @if ($hasMobile)
+                        <strong>Mobile Money</strong><br>
+                        <div>Network Provider: {{ $mobile_network_provider }}</div>
+                    @endif
                 </div>
             </td>
         </tr>

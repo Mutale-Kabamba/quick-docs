@@ -39,7 +39,14 @@ class DocumentController extends Controller
             'expiry_date' => 'required|date|after_or_equal:quote_date',
             'vat_rate' => 'nullable|numeric|min:0|max:100',
             'terms_conditions' => 'nullable|string|max:3000',
-            'payment_details' => 'nullable|string|max:3000',
+            'bank_name' => 'nullable|string|max:255',
+            'account_name' => 'nullable|string|max:255',
+            'account_no' => 'nullable|string|max:255',
+            'branch' => 'nullable|string|max:255',
+            'branch_code' => 'nullable|string|max:255',
+            'sort_code' => 'nullable|string|max:255',
+            'swift_code' => 'nullable|string|max:255',
+            'mobile_network_provider' => 'nullable|string|max:255',
             'items' => 'required|array|min:1',
             'items.*.description' => 'required|string',
             'items.*.qty' => 'required|numeric|min:1',
@@ -65,6 +72,33 @@ class DocumentController extends Controller
         $validated['vat_amount'] = $vatAmount;
         $validated['grand_total'] = $grandTotal;
         $validated['generated_at'] = now()->format('Y-m-d H:i:s');
+
+        $bankFields = array_filter([
+            'Bank Name: ' . ($validated['bank_name'] ?? ''),
+            'Account Name: ' . ($validated['account_name'] ?? ''),
+            'Account No: ' . ($validated['account_no'] ?? ''),
+            'Branch: ' . ($validated['branch'] ?? ''),
+            'Branch Code: ' . ($validated['branch_code'] ?? ''),
+            'Sort Code: ' . ($validated['sort_code'] ?? ''),
+            'Swift Code: ' . ($validated['swift_code'] ?? ''),
+        ], function ($line) {
+            return !str_ends_with($line, ': ');
+        });
+
+        $mobileFields = array_filter([
+            'Network Provider: ' . ($validated['mobile_network_provider'] ?? ''),
+        ], function ($line) {
+            return !str_ends_with($line, ': ');
+        });
+
+        $paymentSections = [];
+        if (!empty($bankFields)) {
+            $paymentSections[] = "Bank\n" . implode("\n", $bankFields);
+        }
+        if (!empty($mobileFields)) {
+            $paymentSections[] = "Mobile Money\n" . implode("\n", $mobileFields);
+        }
+        $validated['payment_details'] = implode("\n\n", $paymentSections);
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');

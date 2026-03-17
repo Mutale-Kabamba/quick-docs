@@ -530,12 +530,45 @@
 
                 <section class="section">
                     <h2 class="section-title">Terms & Conditions</h2>
-                    <textarea id="terms_conditions" name="terms_conditions">{{ old('terms_conditions', '1. Quotation validity: 14 days.\n2. Work starts after payment confirmation.\n3. Balance payment due before final delivery.') }}</textarea>
+                    <textarea id="terms_conditions" name="terms_conditions" placeholder="Enter your terms and conditions here...">{{ old('terms_conditions') }}</textarea>
                 </section>
 
                 <section class="section">
                     <h2 class="section-title">Payment Details</h2>
-                    <textarea id="payment_details" name="payment_details">{{ old('payment_details', 'Bank: \nAccount Name: \nAccount Number: \nMobile Money: ') }}</textarea>
+                    <div class="grid">
+                        <div class="col-12">
+                            <label for="bank_name">Bank Name</label>
+                            <input id="bank_name" name="bank_name" type="text" value="{{ old('bank_name') }}">
+                        </div>
+                        <div class="col-6">
+                            <label for="account_name">Account Name</label>
+                            <input id="account_name" name="account_name" type="text" value="{{ old('account_name') }}">
+                        </div>
+                        <div class="col-6">
+                            <label for="account_no">Account No</label>
+                            <input id="account_no" name="account_no" type="text" value="{{ old('account_no') }}">
+                        </div>
+                        <div class="col-4">
+                            <label for="branch">Branch</label>
+                            <input id="branch" name="branch" type="text" value="{{ old('branch') }}">
+                        </div>
+                        <div class="col-4">
+                            <label for="branch_code">Branch Code</label>
+                            <input id="branch_code" name="branch_code" type="text" value="{{ old('branch_code') }}">
+                        </div>
+                        <div class="col-4">
+                            <label for="sort_code">Sort Code</label>
+                            <input id="sort_code" name="sort_code" type="text" value="{{ old('sort_code') }}">
+                        </div>
+                        <div class="col-6">
+                            <label for="swift_code">Swift Code</label>
+                            <input id="swift_code" name="swift_code" type="text" value="{{ old('swift_code') }}">
+                        </div>
+                        <div class="col-6">
+                            <label for="mobile_network_provider">Mobile Money Network Provider</label>
+                            <input id="mobile_network_provider" name="mobile_network_provider" type="text" value="{{ old('mobile_network_provider') }}">
+                        </div>
+                    </div>
                 </section>
 
                 <section class="section">
@@ -675,6 +708,36 @@
                 return (text || '').replace(/\n/g, '<br>');
             }
 
+            function buildPaymentPreviewHtml() {
+                const bankFields = [
+                    { label: 'Bank Name', value: document.getElementById('bank_name').value },
+                    { label: 'Account Name', value: document.getElementById('account_name').value },
+                    { label: 'Account No', value: document.getElementById('account_no').value },
+                    { label: 'Branch', value: document.getElementById('branch').value },
+                    { label: 'Branch Code', value: document.getElementById('branch_code').value },
+                    { label: 'Sort Code', value: document.getElementById('sort_code').value },
+                    { label: 'Swift Code', value: document.getElementById('swift_code').value }
+                ].filter(function (field) {
+                    return (field.value || '').trim() !== '';
+                });
+
+                const mobileProvider = (document.getElementById('mobile_network_provider').value || '').trim();
+                const parts = [];
+
+                if (bankFields.length) {
+                    const bankLines = bankFields.map(function (field) {
+                        return field.label + ': ' + field.value;
+                    }).join('<br>');
+                    parts.push('<strong>Bank</strong><br>' + bankLines);
+                }
+
+                if (mobileProvider) {
+                    parts.push('<strong>Mobile Money</strong><br>Network Provider: ' + mobileProvider);
+                }
+
+                return parts.join('<br><br>') || '-';
+            }
+
             function updatePreview() {
                 const data = rowsData();
                 const subTotal = data.reduce(function (total, row) {
@@ -736,7 +799,7 @@
                 document.getElementById('pv-grand').textContent = formatMoney(grandTotal);
 
                 document.getElementById('pv-terms').innerHTML = lineBreaksToHtml(document.getElementById('terms_conditions').value || '-');
-                document.getElementById('pv-payment').innerHTML = lineBreaksToHtml(document.getElementById('payment_details').value || '-');
+                document.getElementById('pv-payment').innerHTML = buildPaymentPreviewHtml();
                 document.getElementById('pv-time').textContent = new Date().toLocaleString();
             }
 
