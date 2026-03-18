@@ -3,24 +3,12 @@
 <head>
     <style>
         body { font-family: 'Helvetica', Arial, sans-serif; font-size: 12px; color: #1b2a36; margin-bottom: 70px; }
-        .brand { color: #0b5c49; }
+        .brand { color: #000720; }
         table { width: 100%; border-collapse: collapse; }
         .header { border-bottom: 2px solid #0b5c49; padding-bottom: 12px; margin-bottom: 16px; }
         .header td { vertical-align: top; }
-        .title { text-align: right; font-size: 24px; font-weight: bold; letter-spacing: 1px; color: #0b5c49; }
+        .title { text-align: right; font-size: 24px; font-weight: bold; letter-spacing: 1px; color: #000720; }
         .logo { width: 64px; height: 64px; object-fit: contain; }
-        .logo-fallback {
-            width: 64px;
-            height: 64px;
-            display: inline-block;
-            line-height: 64px;
-            text-align: center;
-            border-radius: 50%;
-            background: #0b5c49;
-            color: #fff;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
         .meta-wrap { margin-bottom: 14px; }
         .meta-wrap td { vertical-align: top; }
         .box { border: 1px solid #d9e3ed; border-radius: 6px; padding: 8px; background: #fbfdff; min-height: 90px; }
@@ -66,8 +54,6 @@
                         <img src="{{ $logo_file_uri }}" class="logo" alt="logo" style="display:block; margin-left:auto;" />
                     @elseif(!empty($logo_abs_path))
                         <img src="{{ $logo_abs_path }}" class="logo" alt="logo" style="display:block; margin-left:auto;" />
-                    @else
-                        <span class="logo-fallback">OS</span>
                     @endif
                 </td>
             </tr>
@@ -178,7 +164,7 @@
     </table>
 
     <div class="footer">
-        System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | Ori Studio Limited Business Docs
+        System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | Business Docs
     </div>
 </body>
 </html>

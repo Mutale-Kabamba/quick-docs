@@ -5,22 +5,10 @@
         body { font-family: 'Helvetica', Arial, sans-serif; font-size: 12px; color: #22313f; margin-bottom: 68px; }
         table { width: 100%; border-collapse: collapse; }
         .header-row td { vertical-align: top; }
-        .brand { font-size: 24px; font-weight: bold; color: #1f497d; margin: 0; }
-        .title { font-size: 28px; font-weight: bold; text-align: right; letter-spacing: 1px; color: #1f497d; margin: 0; }
+        .brand { font-size: 24px; font-weight: bold; color: #1e3a8a; margin: 0; }
+        .title { font-size: 28px; font-weight: bold; text-align: right; letter-spacing: 1px; color: #1e3a8a; margin: 0; }
         .logo-wrap { text-align: right; margin-bottom: 8px; }
         .logo { width: 60px; height: 60px; object-fit: contain; }
-        .logo-fallback {
-            width: 60px;
-            height: 60px;
-            display: inline-block;
-            line-height: 60px;
-            text-align: center;
-            border-radius: 50%;
-            background: #1f497d;
-            color: #fff;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
         .meta-card {
             border: 1px solid #d9e2ec;
             background: #f8fbff;
@@ -69,8 +57,6 @@
                         <img src="{{ $logo_file_uri }}" class="logo" alt="logo" />
                     @elseif(!empty($logo_abs_path))
                         <img src="{{ $logo_abs_path }}" class="logo" alt="logo" />
-                    @else
-                        <span class="logo-fallback">OS</span>
                     @endif
                 </div>
                 <div class="title">{{ strtoupper($doc_type) }}</div>
@@ -151,7 +137,7 @@
     </div>
 
     <div class="footer">
-        System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | {{ $seller_name ?? 'Ori Studio Limited' }} Business Docs
+        System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | Business Docs
     </div>
 </body>
 </html>

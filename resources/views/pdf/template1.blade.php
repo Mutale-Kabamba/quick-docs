@@ -8,18 +8,6 @@
         .header-table td { vertical-align: top; }
         .logo-wrap { text-align: right; margin-bottom: 8px; }
         .logo { width: 64px; height: 64px; object-fit: contain; }
-        .logo-fallback {
-            width: 64px;
-            height: 64px;
-            display: inline-block;
-            line-height: 64px;
-            text-align: center;
-            border-radius: 50%;
-            background: #004080;
-            color: #fff;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
         .doc-title { font-size: 36px; font-weight: bold; text-align: right; letter-spacing: 2px; }
         .meta-table { margin-top: 40px; margin-bottom: 40px; }
         .meta-table td { vertical-align: top; }
@@ -57,8 +45,6 @@
                         <img src="{{ $logo_file_uri }}" class="logo" alt="logo" />
                     @elseif(!empty($logo_abs_path))
                         <img src="{{ $logo_abs_path }}" class="logo" alt="logo" />
-                    @else
-                        <span class="logo-fallback">OS</span>
                     @endif
                 </div>
                 {{ strtoupper($doc_type) }}
@@ -126,7 +112,7 @@
     @endif
 
     <div class="footer">
-        System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | {{ $seller_name ?? 'Ori Studio Limited' }} Business Docs
+        System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} |  Business Docs
     </div>
 </body>
 </html>

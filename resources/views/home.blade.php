@@ -3,470 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Docs | Quotation</title>
+    <title>Ori Studio Limited | Quotation Builder</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        :root {
-            --ink: #172331;
-            --ink-soft: #44566c;
-            --line: #cad6e2;
-            --panel: #ffffff;
-            --paper: #f4f8fc;
-            --accent: #0c6c56;
-            --accent-dark: #084f40;
-            --warn: #92400e;
-            --error: #b91c1c;
-            --error-bg: #fef2f2;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            color: var(--ink);
-            background:
-                radial-gradient(circle at 10% 0%, rgba(14, 116, 144, 0.14), transparent 35%),
-                radial-gradient(circle at 95% 20%, rgba(12, 108, 86, 0.16), transparent 38%),
-                linear-gradient(170deg, #eef5ff 0%, #f9fbff 100%);
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .shell {
-            max-width: 1420px;
-            margin: 24px auto;
-            padding: 0 16px 26px;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-
-        .title {
-            margin: 0;
-            font-size: 1.8rem;
-        }
-
-        .subtitle {
-            margin: 6px 0 0;
-            color: var(--ink-soft);
-        }
-
-        .back-link {
-            text-decoration: none;
-            color: var(--accent-dark);
-            font-weight: 700;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 8px 12px;
-            background: #fff;
-        }
-
-        .layout {
-            display: grid;
-            gap: 16px;
-        }
-
-        .card {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
-            overflow: hidden;
-        }
-
-        .section {
-            padding: 12px 16px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .section:last-child {
-            border-bottom: 0;
-        }
-
-        .section-title {
-            margin: 0 0 8px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #2c3e50;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(12, minmax(0, 1fr));
-            gap: 6px;
-        }
-
-        .col-3 { grid-column: span 3; }
-        .col-4 { grid-column: span 4; }
-        .col-6 { grid-column: span 6; }
-        .col-12 { grid-column: span 12; }
-
-        label {
-            display: block;
-            margin-bottom: 3px;
-            color: var(--ink-soft);
-            font-size: 0.78rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-            border: 1px solid var(--line);
-            border-radius: 6px;
-            padding: 6px 8px;
-            font-size: 0.85rem;
-            font-family: inherit;
-            color: var(--ink);
-            background: #fff;
-        }
-
-        textarea {
-            min-height: 60px;
-            resize: vertical;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            outline: 2px solid rgba(12, 108, 86, 0.22);
-            border-color: var(--accent);
-        }
-
-        .items-wrap {
-            overflow-x: auto;
-            border: 1px solid #d7e0eb;
-            border-radius: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 720px;
-        }
-
-        th,
-        td {
-            padding: 6px 8px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 0.83rem;
-        }
-
-        th {
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            font-size: 0.72rem;
-            color: #4a5b71;
-            background: var(--paper);
-            text-align: left;
-            font-weight: 700;
-        }
-
-        .money {
-            text-align: right;
-        }
-
-        .payment-method-section {
-            border: 1px solid #d4dce9;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: #f9fafb;
-        }
-
-        .payment-method-section:last-of-type {
-            margin-bottom: 0;
-        }
-
-        .payment-method-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #2d3e50;
-            letter-spacing: 0.4px;
-            margin: 0 0 8px 0;
-            padding-bottom: 6px;
-            border-bottom: 2px solid #c7d4e2;
-        }
-
-        .other-bank-input {
-            display: none;
-        }
-
-        .other-bank-input.show {
-            display: block;
-        }
-
-        .template-info {
-            font-size: 0.75rem;
-            color: #666;
-            margin-top: 2px;
-            padding: 6px;
-            background: #f0f5fa;
-            border-radius: 4px;
-            border-left: 3px solid var(--accent);
-        }
-
-        .row-actions {
-            width: 98px;
-        }
-
-        .totals-grid {
-            display: grid;
-            gap: 8px;
-            max-width: 360px;
-            margin-left: auto;
-            margin-top: 12px;
-        }
-
-        .totals-grid .line {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            font-size: 0.93rem;
-        }
-
-        .totals-grid .line strong {
-            color: var(--accent-dark);
-            font-size: 1rem;
-        }
-
-        .checkbox-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .checkbox-row input {
-            width: auto;
-            margin: 0;
-        }
-
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .btn {
-            border: 0;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 0.92rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 120ms ease, background-color 120ms ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-dark);
-        }
-
-        .btn-outline {
-            border: 1px solid var(--line);
-            background: #fff;
-            color: var(--ink);
-        }
-
-        .btn-danger {
-            border: 1px solid #fecaca;
-            color: var(--error);
-            background: #fff;
-        }
-
-        .error-box {
-            margin: 0 16px;
-            margin-top: 14px;
-            border: 1px solid #fecaca;
-            border-radius: 10px;
-            background: var(--error-bg);
-            color: #7f1d1d;
-            padding: 12px;
-        }
-
-        .error-box ul {
-            margin: 8px 0 0;
-            padding-left: 18px;
-        }
-
-        .preview {
-            position: sticky;
-            top: 16px;
-            align-self: start;
-            padding: 0;
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            box-shadow: none;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .preview-sheet {
-            background: #fff;
-            border: 1px solid #d4dce9;
-            border-radius: 10px;
-            padding: 12px;
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-        }
-
-        .preview-head {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 8px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
-        }
-
-        .logo-preview {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            border: 1px solid #d8e4f0;
-            border-radius: 6px;
-            background: #f8fbff;
-            display: none;
-        }
-
-        .preview h3 {
-            margin: 0;
-            font-size: 0.98rem;
-            line-height: 1.3;
-        }
-
-        .muted {
-            color: #666;
-            font-size: 0.78rem;
-            line-height: 1.4;
-        }
-
-        .preview-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .preview-box {
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 6px;
-            font-size: 0.78rem;
-            background: #f9fafb;
-            min-height: auto;
-        }
-
-        .preview table {
-            min-width: 0;
-            margin: 8px 0;
-        }
-
-        .preview th,
-        .preview td {
-            font-size: 0.75rem;
-            padding: 4px 6px;
-        }
-
-        .totals-grid {
-            margin: 6px 0;
-        }
-
-        .totals-grid .line {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            font-size: 0.8rem;
-            padding: 4px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .totals-grid .line strong {
-            font-weight: 700;
-        }
-
-        .footer-note {
-            border-top: 1px solid #d4e2ef;
-            margin-top: auto;
-            padding-top: 6px;
-            padding-bottom: 0;
-            font-size: 0.68rem;
-            color: #888;
-            line-height: 1.3;
-            flex-shrink: 0;
-        }
-
-        @media (min-width: 1100px) {
-            .layout {
-                grid-template-columns: minmax(0, 1fr) 470px;
-                align-items: start;
-            }
-        }
-
-        @media (max-width: 840px) {
-            .col-3,
-            .col-4,
-            .col-6,
-            .col-12 {
-                grid-column: span 12;
-            }
-
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
 </head>
-<body>
+<body class="bg-slate-100 text-slate-900 antialiased">
     @php
         $oldItems = old('items', [['description' => '', 'qty' => 1, 'price' => 0]]);
+        $existingTerms = array_values(array_filter(preg_split("/\r\n|\n|\r/", old('terms_conditions') ?? ''), fn($line) => trim($line) !== ''));
     @endphp
 
-    <main class="shell">
-        <header class="page-header">
+    <div class="mx-auto min-h-screen max-w-7xl px-4 py-8 lg:px-10">
+        <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-                <h1 class="title">Quotation Builder</h1>
-                <p class="subtitle">Fill details on the left and monitor the live quotation preview on the right.</p>
+                <p class="text-xs font-semibold uppercase tracking-[0.5em] text-emerald-600">Ori Studio Limited</p>
+                <h1 class="mt-3 text-3xl font-semibold text-slate-900">Quotation Builder</h1>
+                <p class="text-sm text-slate-500">Fill details on the left, monitor the live preview on the right.</p>
             </div>
-            <a href="{{ route('landing') }}" class="back-link">Back To Landing</a>
-        </header>
+            <a href="{{ route('landing') }}" class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-emerald-400 hover:text-emerald-600">Back to Landing</a>
+        </div>
 
-        <div class="layout">
-            <form action="{{ route('generate.pdf') }}" method="POST" enctype="multipart/form-data" class="card" id="quotation-form">
+        <div class="grid grid-cols-12 gap-6">
+            <form action="{{ route('generate.pdf') }}" method="POST" enctype="multipart/form-data" id="quotation-form" class="col-span-12 space-y-6 lg:col-span-6 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-2">
                 @csrf
                 <input type="hidden" name="doc_type" value="Quotation">
                 <input type="hidden" name="vat_rate" value="16">
 
                 @if ($errors->any())
-                    <div class="error-box">
-                        <strong>Please fix the following and try again:</strong>
-                        <ul>
+                    <div class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                        <p class="font-semibold">Please fix the following and try again:</p>
+                        <ul class="mt-2 list-disc pl-5">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -474,322 +39,344 @@
                     </div>
                 @endif
 
-                <section class="section">
-                    <h2 class="section-title">Document Template</h2>
-                    <div class="grid">
-                        <div class="col-12">
-                            <label for="template">Select Template</label>
-                            <select id="template" name="template" required>
+                <section class="rounded-3xl border border-slate-200 bg-white p-6">
+                    <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500">Document Setup</h2>
+                    <div class="mt-4 space-y-2">
+                        <label for="template" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Select Template</label>
+                        <div class="relative">
+                            <select id="template" name="template" required class="w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 focus:border-emerald-500 focus:bg-white focus:outline-none">
                                 <option value="1" {{ old('template') === '1' ? 'selected' : '' }}>Template 1 - Professional</option>
                                 <option value="2" {{ old('template') === '2' ? 'selected' : '' }}>Template 2 - Compact</option>
-                                <option value="3" {{ old('template') === '3' ? 'selected' : '' }} selected>Template 3 - Standard</option>
+                                <option value="3" {{ old('template', '3') === '3' ? 'selected' : '' }}>Template 3 - Standard</option>
                             </select>
-                            <div id="template-info" class="template-info"></div>
+                            <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-500">▾</span>
+                        </div>
+                        <p id="template-info" class="rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-2 text-xs text-emerald-700"></p>
+                    </div>
+                </section>
+
+                <section class="rounded-3xl border border-slate-200 bg-white p-6">
+                    <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500">Your Business Details</h2>
+                    <div class="mt-4 grid grid-cols-12 gap-4">
+                        <div class="col-span-12">
+                            <label for="seller_name" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Business Name</label>
+                            <input id="seller_name" name="seller_name" type="text" value="{{ old('seller_name', 'Ori Studio Limited') }}" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
+                        </div>
+                        <div class="col-span-12">
+                            <label for="logo" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Logo Upload (optional)</label>
+                            <label class="mt-1 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-center text-sm font-medium text-slate-500 transition hover:border-emerald-400 hover:bg-white">
+                                <input id="logo" name="logo" type="file" accept="image/*" class="sr-only">
+                                <span id="logo-file-label">Drag & drop or click to upload</span>
+                            </label>
+                        </div>
+                        <div class="col-span-12 md:col-span-6">
+                            <label for="seller_tpin" class="text-xs font-semibold uppercase tracking-widest text-slate-500">TPIN</label>
+                            <input id="seller_tpin" name="seller_tpin" type="text" value="{{ old('seller_tpin') }}" class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
+                        </div>
+                        <div class="col-span-12 md:col-span-6">
+                            <label for="seller_pacra" class="text-xs font-semibold uppercase tracking-widest text-slate-500">PACRA Reg. No.</label>
+                            <input id="seller_pacra" name="seller_pacra" type="text" value="{{ old('seller_pacra') }}" class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
+                        </div>
+                        <div class="col-span-12 md:col-span-6">
+                            <label for="seller_phone" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Phone</label>
+                            <input id="seller_phone" name="seller_phone" type="text" value="{{ old('seller_phone') }}" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
+                        </div>
+                        <div class="col-span-12 md:col-span-6">
+                            <label for="seller_email" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Email (optional)</label>
+                            <input id="seller_email" name="seller_email" type="email" value="{{ old('seller_email') }}" class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
+                        </div>
+                        <div class="col-span-12">
+                            <label for="seller_address" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Address</label>
+                            <textarea id="seller_address" name="seller_address" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0" rows="3">{{ old('seller_address') }}</textarea>
                         </div>
                     </div>
                 </section>
 
-                <section class="section">
-                    <h2 class="section-title">Your Business Details</h2>
-                    <div class="grid">
-                        <div class="col-6">
-                            <label for="seller_name">Business Name</label>
-                            <input id="seller_name" name="seller_name" type="text" value="{{ old('seller_name', 'Ori Studio Limited') }}" required>
+                <section class="rounded-3xl border border-slate-200 bg-white p-6">
+                    <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500">Customer Details</h2>
+                    <div class="mt-4 grid grid-cols-12 gap-4">
+                        <div class="col-span-12">
+                            <label for="customer_name" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Customer Name</label>
+                            <input id="customer_name" name="customer_name" type="text" value="{{ old('customer_name') }}" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
                         </div>
-                        <div class="col-6">
-                            <label for="logo">Logo Upload (optional)</label>
-                            <input id="logo" name="logo" type="file" accept="image/*">
+                        <div class="col-span-12 md:col-span-6">
+                            <label for="customer_tpin" class="text-xs font-semibold uppercase tracking-widest text-slate-500">TPIN</label>
+                            <input id="customer_tpin" name="customer_tpin" type="text" value="{{ old('customer_tpin') }}" class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
                         </div>
-                        <div class="col-3">
-                            <label for="seller_tpin">TPIN</label>
-                            <input id="seller_tpin" name="seller_tpin" type="text" value="{{ old('seller_tpin') }}">
+                        <div class="col-span-12 md:col-span-6">
+                            <label for="customer_phone" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Phone</label>
+                            <input id="customer_phone" name="customer_phone" type="text" value="{{ old('customer_phone') }}" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
                         </div>
-                        <div class="col-3">
-                            <label for="seller_pacra">PACRA Reg. No.</label>
-                            <input id="seller_pacra" name="seller_pacra" type="text" value="{{ old('seller_pacra') }}">
+                        <div class="col-span-12">
+                            <label for="customer_address" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Address</label>
+                            <textarea id="customer_address" name="customer_address" rows="3" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">{{ old('customer_address') }}</textarea>
                         </div>
-                        <div class="col-3">
-                            <label for="seller_phone">Phone</label>
-                            <input id="seller_phone" name="seller_phone" type="text" value="{{ old('seller_phone') }}" required>
-                        </div>
-                        <div class="col-3">
-                            <label for="seller_email">Email (optional)</label>
-                            <input id="seller_email" name="seller_email" type="email" value="{{ old('seller_email') }}">
-                        </div>
-                        <div class="col-12">
-                            <label for="seller_address">Address</label>
-                            <textarea id="seller_address" name="seller_address" required>{{ old('seller_address') }}</textarea>
+                        <div class="col-span-12">
+                            <label for="customer_email" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Email (optional)</label>
+                            <input id="customer_email" name="customer_email" type="email" value="{{ old('customer_email') }}" class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
                         </div>
                     </div>
                 </section>
 
-                <section class="section">
-                    <h2 class="section-title">Customer Details</h2>
-                    <div class="grid">
-                        <div class="col-6">
-                            <label for="customer_name">Customer Name</label>
-                            <input id="customer_name" name="customer_name" type="text" value="{{ old('customer_name') }}" required>
+                <section class="rounded-3xl border border-slate-200 bg-white p-6">
+                    <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500">Quotation Details</h2>
+                    <div class="mt-4 grid grid-cols-12 gap-4">
+                        <div class="col-span-12 lg:col-span-4">
+                            <label for="quote_no" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Quote No.</label>
+                            <input id="quote_no" name="quote_no" type="text" value="{{ old('quote_no', 'QT-' . now()->format('Ymd-His')) }}" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
                         </div>
-                        <div class="col-3">
-                            <label for="customer_tpin">TPIN</label>
-                            <input id="customer_tpin" name="customer_tpin" type="text" value="{{ old('customer_tpin') }}">
+                        <div class="col-span-12 md:col-span-6 lg:col-span-4">
+                            <label for="quote_date" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Quote Date</label>
+                            <input id="quote_date" name="quote_date" type="date" value="{{ old('quote_date', now()->toDateString()) }}" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
                         </div>
-                        <div class="col-3">
-                            <label for="customer_phone">Phone</label>
-                            <input id="customer_phone" name="customer_phone" type="text" value="{{ old('customer_phone') }}" required>
-                        </div>
-                        <div class="col-6">
-                            <label for="customer_address">Address</label>
-                            <textarea id="customer_address" name="customer_address" required>{{ old('customer_address') }}</textarea>
-                        </div>
-                        <div class="col-6">
-                            <label for="customer_email">Email (optional)</label>
-                            <input id="customer_email" name="customer_email" type="email" value="{{ old('customer_email') }}">
+                        <div class="col-span-12 md:col-span-6 lg:col-span-4">
+                            <label for="expiry_date" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Expiry Date</label>
+                            <input id="expiry_date" name="expiry_date" type="date" value="{{ old('expiry_date', now()->addDays(14)->toDateString()) }}" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
                         </div>
                     </div>
                 </section>
 
-                <section class="section">
-                    <h2 class="section-title">Quotation Details</h2>
-                    <div class="grid">
-                        <div class="col-4">
-                            <label for="quote_no">Quote No.</label>
-                            <input id="quote_no" name="quote_no" type="text" value="{{ old('quote_no', 'QT-' . now()->format('Ymd-His')) }}" required>
+                <section class="rounded-3xl border border-slate-200 bg-white p-6">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500">Line Items</h2>
+                        <button type="button" id="add-item" class="text-sm font-semibold text-emerald-600 transition hover:text-emerald-500">+ Add Item</button>
+                    </div>
+                    <div class="mt-4 overflow-hidden rounded-2xl border border-slate-200">
+                        <div class="hidden bg-slate-50 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-500 md:grid md:grid-cols-[1fr_3fr_1.5fr_1.5fr_auto]">
+                            <span>Qty</span>
+                            <span>Description</span>
+                            <span>Unit Price</span>
+                            <span>Amount</span>
+                            <span></span>
                         </div>
-                        <div class="col-4">
-                            <label for="quote_date">Quote Date</label>
-                            <input id="quote_date" name="quote_date" type="date" value="{{ old('quote_date', now()->toDateString()) }}" required>
+                        <div id="items-body" class="divide-y divide-slate-100">
+                            @foreach ($oldItems as $index => $item)
+                                <div class="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-[1fr_3fr_1.5fr_1.5fr_auto] md:items-center item-row">
+                                    <input type="number" step="1" min="1" name="items[{{ $index }}][qty]" value="{{ $item['qty'] ?? 1 }}" required class="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                    <input type="text" name="items[{{ $index }}][description]" value="{{ $item['description'] ?? '' }}" placeholder="Description" required class="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                    <input type="number" step="0.01" min="0" name="items[{{ $index }}][price]" value="{{ $item['price'] ?? 0 }}" required class="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                    <input type="text" class="line-total-display rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-right" value="0.00" readonly>
+                                    <button type="button" class="text-xs font-semibold uppercase tracking-widest text-rose-500 hover:text-rose-600 remove-item">Remove</button>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="col-4">
-                            <label for="expiry_date">Expiry Date</label>
-                            <input id="expiry_date" name="expiry_date" type="date" value="{{ old('expiry_date', now()->addDays(14)->toDateString()) }}" required>
+                    </div>
+                    <div class="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-4">
+                        <label class="flex items-center gap-2 text-sm font-semibold text-slate-600">
+                            <input id="vat_registered" name="vat_registered" type="checkbox" value="1" {{ old('vat_registered') ? 'checked' : '' }} class="h-4 w-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500">
+                            VAT registered (16%)
+                        </label>
+                        <div class="text-right text-sm text-slate-600">
+                            <p>Sub Total: <span id="sub-total" class="font-semibold text-slate-900">ZMW 0.00</span></p>
+                            <p>VAT: <span id="vat-total" class="font-semibold text-slate-900">ZMW 0.00</span></p>
+                            <p>Total: <span id="grand-total" class="font-semibold text-emerald-600">ZMW 0.00</span></p>
                         </div>
                     </div>
                 </section>
 
-                <section class="section">
-                    <h2 class="section-title">Items</h2>
-                    <div class="items-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th style="width: 9%;">Qty</th>
-                                    <th style="width: 43%;">Description</th>
-                                    <th style="width: 16%;">Unit Price</th>
-                                    <th style="width: 16%;">Amount</th>
-                                    <th class="row-actions">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="items-body">
-                                @foreach ($oldItems as $index => $item)
-                                    <tr class="item-row">
-                                        <td>
-                                            <input type="number" step="1" min="1" name="items[{{ $index }}][qty]" value="{{ $item['qty'] ?? 1 }}" required>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="items[{{ $index }}][description]" value="{{ $item['description'] ?? '' }}" placeholder="Description" required>
-                                        </td>
-                                        <td>
-                                            <input type="number" step="0.01" min="0" name="items[{{ $index }}][price]" value="{{ $item['price'] ?? 0 }}" required>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="line-total-display" value="0.00" readonly>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger remove-item">Remove</button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                <section class="rounded-3xl border border-slate-200 bg-white p-6">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500">Terms & Conditions</h2>
+                        <button type="button" id="add-term" class="text-xs font-semibold uppercase tracking-widest text-emerald-600">+ Add</button>
                     </div>
-
-                    <div class="actions" style="margin-top: 10px;">
-                        <button type="button" class="btn btn-outline" id="add-item">Add Item</button>
+                    <div class="mt-4 flex gap-3">
+                        <input id="terms_entry" type="text" placeholder="Add a clause (e.g., Payment due within 7 days)" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-0">
                     </div>
-
-                    <div style="margin-top: 14px;" class="checkbox-row">
-                        <input id="vat_registered" name="vat_registered" type="checkbox" value="1" {{ old('vat_registered') ? 'checked' : '' }}>
-                        <label for="vat_registered" style="margin: 0; color: var(--warn); font-weight: 700;">Tick if VAT Registered (16% of Sub Total)</label>
-                    </div>
-
-                    <div class="totals-grid">
-                        <div class="line"><span>Sub Total</span><span id="sub-total">ZMW 0.00</span></div>
-                        <div class="line"><span>VAT (16%)</span><span id="vat-total">ZMW 0.00</span></div>
-                        <div class="line"><strong>Total</strong><strong id="grand-total">ZMW 0.00</strong></div>
-                    </div>
+                    <ul id="terms-list" class="mt-4 space-y-2">
+                        @foreach ($existingTerms as $term)
+                            <li class="flex items-center justify-between rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700">
+                                <span>{{ $term }}</span>
+                                <button type="button" class="text-xs font-semibold uppercase tracking-widest text-rose-500 term-remove" data-index="{{ $loop->index }}">Remove</button>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <p id="terms-empty-state" class="mt-4 text-xs text-slate-400 {{ count($existingTerms) ? 'hidden' : '' }}">No T&Cs added yet.</p>
+                    <textarea id="terms_conditions" name="terms_conditions" class="hidden">{{ old('terms_conditions') }}</textarea>
                 </section>
 
-                <section class="section">
-                    <h2 class="section-title">Terms & Conditions</h2>
-                    <textarea id="terms_conditions" name="terms_conditions" placeholder="Enter your terms and conditions here...">{{ old('terms_conditions') }}</textarea>
-                </section>
-
-                <section class="section">
-                    <h2 class="section-title">Payment Details</h2>
-                    
-                    <!-- Bank Details Section -->
-                    <div class="payment-method-section">
-                        <div class="payment-method-title">Bank Transfer</div>
-                        <div class="grid">
-                            <div class="col-12">
-                                <label for="bank_name">Bank Name</label>
-                                <select id="bank_name" name="bank_name">
-                                    <option value="">-- Select Bank --</option>
-                                    
-                                    <optgroup label="Top Commercial Banks">
-                                        <option value="Zanaco (Zambia National Commercial Bank) Plc" {{ old('bank_name') === 'Zanaco (Zambia National Commercial Bank) Plc' ? 'selected' : '' }}>Zanaco (Zambia National Commercial Bank) Plc</option>
-                                        <option value="Absa Bank Zambia Plc" {{ old('bank_name') === 'Absa Bank Zambia Plc' ? 'selected' : '' }}>Absa Bank Zambia Plc</option>
-                                        <option value="Stanbic Bank Zambia Limited" {{ old('bank_name') === 'Stanbic Bank Zambia Limited' ? 'selected' : '' }}>Stanbic Bank Zambia Limited</option>
-                                        <option value="First National Bank (FNB) Zambia Limited" {{ old('bank_name') === 'First National Bank (FNB) Zambia Limited' ? 'selected' : '' }}>First National Bank (FNB) Zambia Limited</option>
-                                        <option value="Standard Chartered Bank Zambia Plc" {{ old('bank_name') === 'Standard Chartered Bank Zambia Plc' ? 'selected' : '' }}>Standard Chartered Bank Zambia Plc</option>
-                                    </optgroup>
-                                    
-                                    <optgroup label="Other Registered Commercial Banks">
-                                        <option value="Indo-Zambia Bank Limited" {{ old('bank_name') === 'Indo-Zambia Bank Limited' ? 'selected' : '' }}>Indo-Zambia Bank Limited</option>
-                                        <option value="Access Bank Zambia Limited" {{ old('bank_name') === 'Access Bank Zambia Limited' ? 'selected' : '' }}>Access Bank Zambia Limited</option>
-                                        <option value="United Bank for Africa (UBA) Zambia Limited" {{ old('bank_name') === 'United Bank for Africa (UBA) Zambia Limited' ? 'selected' : '' }}>United Bank for Africa (UBA) Zambia Limited</option>
-                                        <option value="Ecobank Zambia Limited" {{ old('bank_name') === 'Ecobank Zambia Limited' ? 'selected' : '' }}>Ecobank Zambia Limited</option>
-                                        <option value="Bank of China (Zambia) Limited" {{ old('bank_name') === 'Bank of China (Zambia) Limited' ? 'selected' : '' }}>Bank of China (Zambia) Limited</option>
-                                        <option value="First Capital Bank Zambia Limited" {{ old('bank_name') === 'First Capital Bank Zambia Limited' ? 'selected' : '' }}>First Capital Bank Zambia Limited</option>
-                                        <option value="Zambia Industrial Commercial Bank (ZICB)" {{ old('bank_name') === 'Zambia Industrial Commercial Bank (ZICB)' ? 'selected' : '' }}>Zambia Industrial Commercial Bank (ZICB)</option>
-                                    </optgroup>
-                                    
-                                    <option value="Other" {{ old('bank_name') === 'Other' ? 'selected' : '' }}>Other</option>
-                                </select>
-                            </div>
-                            <div class="col-12 other-bank-input {{ old('bank_name') === 'Other' || old('bank_name_other') ? 'show' : '' }}">
-                                <label for="bank_name_other">Please specify bank name</label>
-                                <input id="bank_name_other" name="bank_name_other" type="text" placeholder="Enter your bank name" value="{{ old('bank_name_other') }}">
-                            </div>
-                            <div class="col-6">
-                                <label for="account_name">Account Name</label>
-                                <input id="account_name" name="account_name" type="text" value="{{ old('account_name') }}">
-                            </div>
-                            <div class="col-6">
-                                <label for="account_no">Account No</label>
-                                <input id="account_no" name="account_no" type="text" value="{{ old('account_no') }}">
-                            </div>
-                            <div class="col-4">
-                                <label for="branch">Branch</label>
-                                <input id="branch" name="branch" type="text" value="{{ old('branch') }}">
-                            </div>
-                            <div class="col-4">
-                                <label for="branch_code">Branch Code</label>
-                                <input id="branch_code" name="branch_code" type="text" value="{{ old('branch_code') }}">
-                            </div>
-                            <div class="col-4">
-                                <label for="sort_code">Sort Code</label>
-                                <input id="sort_code" name="sort_code" type="text" value="{{ old('sort_code') }}">
-                            </div>
-                            <div class="col-6">
-                                <label for="swift_code">Swift Code</label>
-                                <input id="swift_code" name="swift_code" type="text" value="{{ old('swift_code') }}">
+                <section class="rounded-3xl border border-slate-200 bg-white p-6">
+                    <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500">Payment Details</h2>
+                    <div class="mt-4 space-y-6">
+                        <div class="space-y-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Bank Transfer</p>
+                            <div class="grid grid-cols-12 gap-4">
+                                <div class="col-span-12">
+                                    <label for="bank_name" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Bank Name</label>
+                                    <select id="bank_name" name="bank_name" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                        <option value="">-- Select Bank --</option>
+                                        <optgroup label="Top Commercial Banks">
+                                            <option value="Zanaco (Zambia National Commercial Bank) Plc" {{ old('bank_name') === 'Zanaco (Zambia National Commercial Bank) Plc' ? 'selected' : '' }}>Zanaco (Zambia National Commercial Bank) Plc</option>
+                                            <option value="Absa Bank Zambia Plc" {{ old('bank_name') === 'Absa Bank Zambia Plc' ? 'selected' : '' }}>Absa Bank Zambia Plc</option>
+                                            <option value="Stanbic Bank Zambia Limited" {{ old('bank_name') === 'Stanbic Bank Zambia Limited' ? 'selected' : '' }}>Stanbic Bank Zambia Limited</option>
+                                            <option value="First National Bank (FNB) Zambia Limited" {{ old('bank_name') === 'First National Bank (FNB) Zambia Limited' ? 'selected' : '' }}>First National Bank (FNB) Zambia Limited</option>
+                                            <option value="Standard Chartered Bank Zambia Plc" {{ old('bank_name') === 'Standard Chartered Bank Zambia Plc' ? 'selected' : '' }}>Standard Chartered Bank Zambia Plc</option>
+                                        </optgroup>
+                                        <optgroup label="Other Registered Commercial Banks">
+                                            <option value="Indo-Zambia Bank Limited" {{ old('bank_name') === 'Indo-Zambia Bank Limited' ? 'selected' : '' }}>Indo-Zambia Bank Limited</option>
+                                            <option value="Access Bank Zambia Limited" {{ old('bank_name') === 'Access Bank Zambia Limited' ? 'selected' : '' }}>Access Bank Zambia Limited</option>
+                                            <option value="United Bank for Africa (UBA) Zambia Limited" {{ old('bank_name') === 'United Bank for Africa (UBA) Zambia Limited' ? 'selected' : '' }}>United Bank for Africa (UBA) Zambia Limited</option>
+                                            <option value="Ecobank Zambia Limited" {{ old('bank_name') === 'Ecobank Zambia Limited' ? 'selected' : '' }}>Ecobank Zambia Limited</option>
+                                            <option value="Bank of China (Zambia) Limited" {{ old('bank_name') === 'Bank of China (Zambia) Limited' ? 'selected' : '' }}>Bank of China (Zambia) Limited</option>
+                                            <option value="First Capital Bank Zambia Limited" {{ old('bank_name') === 'First Capital Bank Zambia Limited' ? 'selected' : '' }}>First Capital Bank Zambia Limited</option>
+                                            <option value="Zambia Industrial Commercial Bank (ZICB)" {{ old('bank_name') === 'Zambia Industrial Commercial Bank (ZICB)' ? 'selected' : '' }}>Zambia Industrial Commercial Bank (ZICB)</option>
+                                        </optgroup>
+                                        <option value="Other" {{ old('bank_name') === 'Other' ? 'selected' : '' }}>Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-12 other-bank-input {{ old('bank_name') === 'Other' || old('bank_name_other') ? 'block' : 'hidden' }}">
+                                    <label for="bank_name_other" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Please specify bank name</label>
+                                    <input id="bank_name_other" name="bank_name_other" type="text" value="{{ old('bank_name_other') }}" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                </div>
+                                <div class="col-span-12 md:col-span-6">
+                                    <label for="account_name" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Account Name</label>
+                                    <input id="account_name" name="account_name" type="text" value="{{ old('account_name') }}" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                </div>
+                                <div class="col-span-12 md:col-span-6">
+                                    <label for="account_no" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Account No</label>
+                                    <input id="account_no" name="account_no" type="text" value="{{ old('account_no') }}" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                </div>
+                                <div class="col-span-12 md:col-span-4">
+                                    <label for="branch" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Branch</label>
+                                    <input id="branch" name="branch" type="text" value="{{ old('branch') }}" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                </div>
+                                <div class="col-span-12 md:col-span-4">
+                                    <label for="branch_code" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Branch Code</label>
+                                    <input id="branch_code" name="branch_code" type="text" value="{{ old('branch_code') }}" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                </div>
+                                <div class="col-span-12 md:col-span-4">
+                                    <label for="sort_code" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Sort Code</label>
+                                    <input id="sort_code" name="sort_code" type="text" value="{{ old('sort_code') }}" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                </div>
+                                <div class="col-span-12 md:col-span-6">
+                                    <label for="swift_code" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Swift Code</label>
+                                    <input id="swift_code" name="swift_code" type="text" value="{{ old('swift_code') }}" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Mobile Money Details Section -->
-                    <div class="payment-method-section">
-                        <div class="payment-method-title">Mobile Money</div>
-                        <div class="grid">
-                            <div class="col-6">
-                                <label for="mobile_network_provider">Network Provider</label>
-                                <select id="mobile_network_provider" name="mobile_network_provider">
-                                    <option value="">-- Select Network --</option>
-                                    <option value="MTN" {{ old('mobile_network_provider') === 'MTN' ? 'selected' : '' }}>MTN</option>
-                                    <option value="Airtel" {{ old('mobile_network_provider') === 'Airtel' ? 'selected' : '' }}>Airtel</option>
-                                    <option value="Zamtel" {{ old('mobile_network_provider') === 'Zamtel' ? 'selected' : '' }}>Zamtel</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label for="mobile_phone_no">Phone No</label>
-                                <input id="mobile_phone_no" name="mobile_phone_no" type="text" placeholder="e.g., 0961234567" value="{{ old('mobile_phone_no') }}">
-                                <small id="phone_hint" style="color: #666; font-size: 0.75rem; display: block; margin-top: 2px;"></small>
-                            </div>
-                            <div class="col-12">
-                                <label for="mobile_account_name">Account Name</label>
-                                <input id="mobile_account_name" name="mobile_account_name" type="text" value="{{ old('mobile_account_name') }}">
+                        <div class="space-y-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Mobile Money</p>
+                            <div class="grid grid-cols-12 gap-4">
+                                <div class="col-span-12 md:col-span-4">
+                                    <label for="mobile_network_provider" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Network Provider</label>
+                                    <select id="mobile_network_provider" name="mobile_network_provider" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                        <option value="">-- Select Network --</option>
+                                        <option value="MTN" {{ old('mobile_network_provider') === 'MTN' ? 'selected' : '' }}>MTN</option>
+                                        <option value="Airtel" {{ old('mobile_network_provider') === 'Airtel' ? 'selected' : '' }}>Airtel</option>
+                                        <option value="Zamtel" {{ old('mobile_network_provider') === 'Zamtel' ? 'selected' : '' }}>Zamtel</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-12 md:col-span-4">
+                                    <label for="mobile_phone_no" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Phone No</label>
+                                    <input id="mobile_phone_no" name="mobile_phone_no" type="text" value="{{ old('mobile_phone_no') }}" placeholder="e.g., 0961234567" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                    <small id="phone_hint" class="mt-1 block text-[10px] text-slate-500"></small>
+                                </div>
+                                <div class="col-span-12 md:col-span-4">
+                                    <label for="mobile_account_name" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Account Name</label>
+                                    <input id="mobile_account_name" name="mobile_account_name" type="text" value="{{ old('mobile_account_name') }}" class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="section">
-                    <div class="actions">
-                        <button type="submit" class="btn btn-primary">Generate Quotation PDF</button>
-                    </div>
+                <section class="rounded-3xl border border-slate-200 bg-white p-6">
+                    <button type="submit" class="w-full rounded-2xl bg-emerald-500 px-6 py-3 text-base font-semibold text-white transition hover:bg-emerald-400">Generate Quotation PDF</button>
                 </section>
             </form>
 
-            <aside class="preview">
-                <div class="preview-sheet">
-                    <div class="preview-box" style="margin-bottom: 10px; background: #e8f5e9; border-color: var(--accent);">
-                        <strong style="color: var(--accent);">Template:</strong>
-                        <div id="pv-template" style="font-size: 0.78rem; color: #2d6a4f;">Template 3 - Standard</div>
-                    </div>
+            <div class="col-span-12 hidden lg:col-span-6 lg:block">
+                <div class="rounded-3xl bg-slate-200 p-4 lg:sticky lg:top-6">
+                    <div class="mx-auto aspect-[1/1.414] max-w-2xl bg-white">
+                        <div class="flex h-full flex-col">
+                            <div class="bg-slate-900 px-8 py-8 text-white">
+                                <div class="flex items-start justify-between gap-4">
+                                    <div>
+                                        <p class="text-xs uppercase tracking-[0.4em] text-emerald-200">Template</p>
+                                        <p id="pv-template" class="text-sm font-semibold text-white">Template 3 - Standard</p>
+                                        <h2 id="pv-seller-name" class="mt-3 text-2xl font-semibold">Ori Studio Limited</h2>
+                                        <p id="pv-seller-info" class="mt-2 text-sm text-slate-200"></p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xs font-semibold uppercase tracking-widest text-slate-300">Doc Type</div>
+                                        <div class="text-lg font-semibold">Quotation</div>
+                                        <div class="mt-4 flex items-center justify-end">
+                                            <img id="logo-preview" class="hidden h-16 w-16 rounded bg-white/10 object-contain p-1" alt="logo preview">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1 bg-white px-8 py-8">
+                                <div class="grid grid-cols-2 gap-4 text-xs uppercase tracking-wide text-slate-500">
+                                    <div class="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                                        <p class="font-semibold text-slate-600">Customer</p>
+                                        <p id="pv-customer" class="mt-1 text-sm normal-case text-slate-800"></p>
+                                    </div>
+                                    <div class="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                                        <p class="font-semibold text-slate-600">Quotation</p>
+                                        <p id="pv-quote" class="mt-1 text-sm normal-case text-slate-800"></p>
+                                    </div>
+                                </div>
 
-                    <div class="preview-head">
-                        <div>
-                            <h3 id="pv-seller-name">Ori Studio Limited</h3>
-                            <div class="muted" id="pv-seller-info"></div>
+                                <div class="mt-6 overflow-hidden rounded-lg border border-slate-200">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-slate-100 text-[11px] uppercase tracking-widest text-slate-500">
+                                            <tr>
+                                                <th class="px-3 py-2 text-left">Qty</th>
+                                                <th class="px-3 py-2 text-left">Description</th>
+                                                <th class="px-3 py-2 text-right">Unit Price</th>
+                                                <th class="px-3 py-2 text-right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="pv-items" class="divide-y divide-slate-100 text-slate-700"></tbody>
+                                    </table>
+                                </div>
+
+                                <div class="mt-6 space-y-2 text-sm text-slate-600">
+                                    <div class="flex items-center justify-between border-b border-dashed border-slate-200 pb-2">
+                                        <span>Sub Total</span>
+                                        <span id="pv-sub" class="font-semibold">ZMW 0.00</span>
+                                    </div>
+                                    <div class="flex items-center justify-between border-b border-dashed border-slate-200 pb-2">
+                                        <span>VAT</span>
+                                        <span id="pv-vat" class="font-semibold">ZMW 0.00</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-base font-semibold text-slate-900">
+                                        <span>Total</span>
+                                        <span id="pv-grand">ZMW 0.00</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 grid gap-4 text-sm text-slate-700">
+                                    <div class="rounded-lg border border-slate-200 p-3">
+                                        <p class="text-xs uppercase tracking-widest text-slate-500">T&Cs</p>
+                                        <p id="pv-terms" class="mt-1 text-slate-700"></p>
+                                    </div>
+                                    <div class="rounded-lg border border-slate-200 p-3">
+                                        <p class="text-xs uppercase tracking-widest text-slate-500">Payment Details</p>
+                                        <p id="pv-payment" class="mt-1 text-slate-700"></p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 border-t border-slate-200 pt-4 text-[11px] uppercase tracking-[0.3em] text-slate-400">
+                                    System time generated: <span id="pv-time">{{ now()->format('Y-m-d H:i:s') }}</span>
+                                </div>
+                            </div>
                         </div>
-                        <img id="logo-preview" class="logo-preview" alt="Logo preview">
                     </div>
-
-                    <div class="preview-meta">
-                        <div class="preview-box">
-                            <strong>Customer</strong>
-                            <div id="pv-customer"></div>
-                        </div>
-                        <div class="preview-box">
-                            <strong>Quotation</strong>
-                            <div id="pv-quote"></div>
-                        </div>
-                    </div>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Qty</th>
-                                <th>Description</th>
-                                <th class="money">Unit Price</th>
-                                <th class="money">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody id="pv-items"></tbody>
-                    </table>
-
-                    <div class="totals-grid" style="margin-top: 8px;">
-                        <div class="line"><span>Sub Total</span><span id="pv-sub">ZMW 0.00</span></div>
-                        <div class="line"><span>VAT</span><span id="pv-vat">ZMW 0.00</span></div>
-                        <div class="line"><strong>Total</strong><strong id="pv-grand">ZMW 0.00</strong></div>
-                    </div>
-
-                    <div class="preview-box" style="margin-top: 10px; min-height: 64px;">
-                        <strong>T&Cs</strong>
-                        <div id="pv-terms" class="muted"></div>
-                    </div>
-
-                    <div class="preview-box" style="margin-top: 10px; min-height: 64px;">
-                        <strong>Payment Details</strong>
-                        <div id="pv-payment" class="muted"></div>
-                    </div>
-
-                    <div class="footer-note">System time generated: <span id="pv-time">{{ now()->format('Y-m-d H:i:s') }}</span> | Ori Studio Limited Business Docs</div>
                 </div>
-            </aside>
+            </div>
         </div>
-    </main>
+    </div>
 
     <template id="item-row-template">
-        <tr class="item-row">
-            <td><input type="number" step="1" min="1" name="items[__INDEX__][qty]" value="1" required></td>
-            <td><input type="text" name="items[__INDEX__][description]" placeholder="Description" required></td>
-            <td><input type="number" step="0.01" min="0" name="items[__INDEX__][price]" value="0" required></td>
-            <td><input type="text" class="line-total-display" value="0.00" readonly></td>
-            <td><button type="button" class="btn btn-danger remove-item">Remove</button></td>
-        </tr>
+        <div class="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-[1fr_3fr_1.5fr_1.5fr_auto] md:items-center item-row">
+            <input type="number" step="1" min="1" name="items[__INDEX__][qty]" value="1" required class="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+            <input type="text" name="items[__INDEX__][description]" placeholder="Description" required class="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+            <input type="number" step="0.01" min="0" name="items[__INDEX__][price]" value="0" required class="rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500">
+            <input type="text" class="line-total-display rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-right" value="0.00" readonly>
+            <button type="button" class="text-xs font-semibold uppercase tracking-widest text-rose-500 hover:text-rose-600 remove-item">Remove</button>
+        </div>
     </template>
 
     <script>
@@ -797,10 +384,15 @@
             const itemsBody = document.getElementById('items-body');
             const addButton = document.getElementById('add-item');
             const rowTemplate = document.getElementById('item-row-template').innerHTML;
-
             const logoInput = document.getElementById('logo');
             const logoPreview = document.getElementById('logo-preview');
+            const logoLabel = document.getElementById('logo-file-label');
             const vatRegistered = document.getElementById('vat_registered');
+            const termsTextarea = document.getElementById('terms_conditions');
+            const termsEntry = document.getElementById('terms_entry');
+            const addTermBtn = document.getElementById('add-term');
+            const termsList = document.getElementById('terms-list');
+            const termsEmptyState = document.getElementById('terms-empty-state');
 
             function formatMoney(value) {
                 return 'ZMW ' + Number(value || 0).toLocaleString(undefined, {
@@ -821,7 +413,6 @@
                         if (!input.name) {
                             return;
                         }
-
                         input.name = input.name
                             .replace(/items\[\d+\]\[qty\]/, 'items[' + index + '][qty]')
                             .replace(/items\[\d+\]\[description\]/, 'items[' + index + '][description]')
@@ -857,10 +448,50 @@
                 return (text || '').replace(/\n/g, '<br>');
             }
 
+            function getTermsArray() {
+                return (termsTextarea.value || '')
+                    .split(/\n+/)
+                    .map(function (line) { return line.trim(); })
+                    .filter(function (line) { return line.length; });
+            }
+
+            function syncTermsTextarea(terms) {
+                termsTextarea.value = terms.join('\n');
+            }
+
+            function renderTermsList() {
+                const terms = getTermsArray();
+                if (!terms.length) {
+                    termsList.innerHTML = '';
+                    termsEmptyState.classList.remove('hidden');
+                    return;
+                }
+                termsEmptyState.classList.add('hidden');
+                termsList.innerHTML = terms.map(function (term, index) {
+                    return '<li class="flex items-center justify-between rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700">'
+                        + '<span>' + term.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>'
+                        + '<button type="button" class="text-xs font-semibold uppercase tracking-widest text-rose-500 term-remove" data-index="' + index + '">Remove</button>'
+                        + '</li>';
+                }).join('');
+            }
+
+            function addTerm(value) {
+                const trimmed = (value || '').trim();
+                if (!trimmed) {
+                    return;
+                }
+                const terms = getTermsArray();
+                terms.push(trimmed);
+                syncTermsTextarea(terms);
+                renderTermsList();
+                termsEntry.value = '';
+                updatePreview();
+            }
+
             function buildPaymentPreviewHtml() {
                 const bankNameSelect = document.getElementById('bank_name').value;
-                const bankNameVal = bankNameSelect === 'Other' 
-                    ? document.getElementById('bank_name_other').value 
+                const bankNameVal = bankNameSelect === 'Other'
+                    ? document.getElementById('bank_name_other').value
                     : bankNameSelect;
 
                 const bankFields = [
@@ -939,7 +570,7 @@
                 const quoteInfo = [
                     'Quote No.: ' + (document.getElementById('quote_no').value || '-'),
                     'Quote Date: ' + (document.getElementById('quote_date').value || '-'),
-                    'Expiry Date: ' + (document.getElementById('expiry_date').value || '-'),
+                    'Expiry Date: ' + (document.getElementById('expiry_date').value || '-')
                 ].join('<br>');
 
                 document.getElementById('pv-seller-name').textContent = sellerName;
@@ -950,14 +581,14 @@
                 const pvRows = data.map(function (row) {
                     const safeDescription = (row.description || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                     return '<tr>' +
-                        '<td>' + row.qty + '</td>' +
-                        '<td>' + safeDescription + '</td>' +
-                        '<td class="money">' + formatMoney(row.price) + '</td>' +
-                        '<td class="money">' + formatMoney(row.amount) + '</td>' +
+                        '<td class="px-3 py-2">' + row.qty + '</td>' +
+                        '<td class="px-3 py-2">' + safeDescription + '</td>' +
+                        '<td class="px-3 py-2 text-right">' + formatMoney(row.price) + '</td>' +
+                        '<td class="px-3 py-2 text-right">' + formatMoney(row.amount) + '</td>' +
                     '</tr>';
                 }).join('');
 
-                document.getElementById('pv-items').innerHTML = pvRows || '<tr><td colspan="4">No items added.</td></tr>';
+                document.getElementById('pv-items').innerHTML = pvRows || '<tr><td colspan="4" class="px-3 py-4 text-center text-slate-400">No items added.</td></tr>';
                 document.getElementById('pv-sub').textContent = formatMoney(subTotal);
                 document.getElementById('pv-vat').textContent = formatMoney(vatAmount);
                 document.getElementById('pv-grand').textContent = formatMoney(grandTotal);
@@ -987,15 +618,17 @@
             logoInput.addEventListener('change', function () {
                 const [file] = logoInput.files;
                 if (!file) {
-                    logoPreview.style.display = 'none';
+                    logoPreview.classList.add('hidden');
                     logoPreview.removeAttribute('src');
+                    logoLabel.textContent = 'Drag & drop or click to upload';
                     return;
                 }
 
+                logoLabel.textContent = file.name;
                 const reader = new FileReader();
                 reader.onload = function (event) {
                     logoPreview.src = event.target.result;
-                    logoPreview.style.display = 'block';
+                    logoPreview.classList.remove('hidden');
                 };
                 reader.readAsDataURL(file);
             });
@@ -1003,11 +636,36 @@
             document.getElementById('quotation-form').addEventListener('input', updatePreview);
             document.getElementById('quotation-form').addEventListener('change', updatePreview);
 
-            // Template selection
+            addTermBtn.addEventListener('click', function () {
+                addTerm(termsEntry.value);
+            });
+
+            termsEntry.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    addTerm(termsEntry.value);
+                }
+            });
+
+            termsList.addEventListener('click', function (event) {
+                if (!event.target.classList.contains('term-remove')) {
+                    return;
+                }
+                const index = parseInt(event.target.getAttribute('data-index'), 10);
+                if (Number.isNaN(index)) {
+                    return;
+                }
+                const terms = getTermsArray();
+                terms.splice(index, 1);
+                syncTermsTextarea(terms);
+                renderTermsList();
+                updatePreview();
+            });
+
             const templateSelect = document.getElementById('template');
             const templateInfo = document.getElementById('template-info');
             const pvTemplate = document.getElementById('pv-template');
-            
+
             const templateDescriptions = {
                 '1': 'Professional layout with comprehensive formatting. Best for formal quotations.',
                 '2': 'Compact layout optimized for shorter quotations. Space-efficient design.',
@@ -1031,16 +689,17 @@
             templateSelect.addEventListener('change', updateTemplateInfo);
             updateTemplateInfo();
 
-            // Bank name dropdown handling
             const bankNameSelect = document.getElementById('bank_name');
             const otherBankInput = document.querySelector('.other-bank-input');
 
             function updateBankSelection() {
                 if (bankNameSelect.value === 'Other') {
-                    otherBankInput.classList.add('show');
+                    otherBankInput.classList.remove('hidden');
+                    otherBankInput.classList.add('block');
                     document.getElementById('bank_name_other').focus();
                 } else {
-                    otherBankInput.classList.remove('show');
+                    otherBankInput.classList.add('hidden');
+                    otherBankInput.classList.remove('block');
                 }
             }
 
@@ -1051,7 +710,6 @@
 
             updateBankSelection();
 
-            // Mobile phone validation
             const networkSelect = document.getElementById('mobile_network_provider');
             const phoneInput = document.getElementById('mobile_phone_no');
             const phoneHint = document.getElementById('phone_hint');
@@ -1082,7 +740,7 @@
                 }
 
                 if (phonePatterns[provider] && !phonePatterns[provider].pattern.test(phone)) {
-                    phoneInput.style.borderColor = '#dc3545';
+                    phoneInput.style.borderColor = '#dc2626';
                     return false;
                 }
 
@@ -1094,14 +752,13 @@
             phoneInput.addEventListener('input', validatePhoneNumber);
             phoneInput.addEventListener('blur', validatePhoneNumber);
 
-            // Validate on form submit
             document.getElementById('quotation-form').addEventListener('submit', function(e) {
                 const provider = networkSelect.value;
                 const phone = phoneInput.value.trim();
 
                 if (provider && !phone) {
                     e.preventDefault();
-                    phoneInput.style.borderColor = '#dc3545';
+                    phoneInput.style.borderColor = '#dc2626';
                     alert('Please enter a mobile phone number for ' + provider);
                     phoneInput.focus();
                     return false;
@@ -1117,6 +774,7 @@
                 return true;
             });
 
+            renderTermsList();
             updatePhoneHint();
             updatePreview();
         })();
