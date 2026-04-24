@@ -3,41 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Docs | Quotation</title>
+    <title>Quick Docs | {{ $docType ?? 'Quotation' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            --ink: #172331;
-            --ink-soft: #44566c;
-            --line: #cad6e2;
+            --ink: #0f172a;
+            --ink-soft: #334155;
+            --ink-2: #334155;
+            --ink-3: #64748b;
+            --line: #e2e8f0;
+            --line-2: #cbd5e1;
             --panel: #ffffff;
-            --paper: #f4f8fc;
-            --accent: #0c6c56;
-            --accent-dark: #084f40;
+            --paper: #f8fafc;
+            --accent: #059669;
+            --accent-dark: #047857;
+            --accent-light: #ecfdf5;
             --warn: #92400e;
             --error: #b91c1c;
             --error-bg: #fef2f2;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
             min-height: 100vh;
             color: var(--ink);
-            background:
-                radial-gradient(circle at 10% 0%, rgba(14, 116, 144, 0.14), transparent 35%),
-                radial-gradient(circle at 95% 20%, rgba(12, 108, 86, 0.16), transparent 38%),
-                linear-gradient(170deg, #eef5ff 0%, #f9fbff 100%);
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--paper);
+            font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+            font-size: 0.875rem;
+            line-height: 1.5;
         }
 
         .shell {
-            max-width: 1420px;
-            margin: 24px auto;
-            padding: 0 16px 26px;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 14px 14px 40px;
         }
 
         .page-header {
@@ -46,63 +47,98 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 14px;
+            padding: 10px 14px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+
+        .brand-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 2px;
         }
 
         .title {
             margin: 0;
-            font-size: 1.8rem;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
         }
 
         .subtitle {
-            margin: 6px 0 0;
-            color: var(--ink-soft);
+            margin: 1px 0 0;
+            color: var(--ink-3);
+            font-size: 0.75rem;
         }
 
         .back-link {
+            display: inline-flex;
+            align-items: center;
             text-decoration: none;
-            color: var(--accent-dark);
-            font-weight: 700;
+            color: var(--ink-2);
+            font-weight: 600;
+            font-size: 0.8rem;
             border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 8px 12px;
-            background: #fff;
+            border-radius: 7px;
+            padding: 5px 11px;
+            background: var(--panel);
+            white-space: nowrap;
+            transition: border-color 150ms, color 150ms;
         }
 
-        .layout {
-            display: grid;
-            gap: 16px;
+        .back-link:hover {
+            border-color: var(--line-2);
+            color: var(--ink);
         }
+
+        .layout { display: grid; gap: 14px; }
 
         .card {
             background: var(--panel);
             border: 1px solid var(--line);
-            border-radius: 14px;
-            box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             overflow: hidden;
         }
 
         .section {
-            padding: 12px 16px;
-            border-bottom: 1px solid #e2e8f0;
+            padding: 13px 15px;
+            border-bottom: 1px solid var(--line);
         }
 
-        .section:last-child {
-            border-bottom: 0;
-        }
+        .section:last-child { border-bottom: none; }
 
         .section-title {
-            margin: 0 0 8px;
-            font-size: 0.9rem;
+            margin: 0 0 10px;
+            font-size: 0.68rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #2c3e50;
+            letter-spacing: 0.06em;
+            color: var(--ink-3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 11px;
+            background: var(--accent);
+            border-radius: 2px;
+            flex-shrink: 0;
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(12, minmax(0, 1fr));
-            gap: 6px;
+            gap: 7px;
         }
 
         .col-3 { grid-column: span 3; }
@@ -113,11 +149,10 @@
         label {
             display: block;
             margin-bottom: 3px;
-            color: var(--ink-soft);
-            font-size: 0.78rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            color: var(--ink-3);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
         }
 
         input,
@@ -127,151 +162,154 @@
             border: 1px solid var(--line);
             border-radius: 6px;
             padding: 6px 8px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-family: inherit;
             color: var(--ink);
-            background: #fff;
+            background: var(--panel);
+            transition: border-color 120ms, box-shadow 120ms;
+            outline: none;
+            line-height: 1.4;
         }
 
         textarea {
-            min-height: 60px;
+            min-height: 56px;
             resize: vertical;
         }
 
         input:focus,
         textarea:focus,
         select:focus {
-            outline: 2px solid rgba(12, 108, 86, 0.22);
             border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
         }
 
         .items-wrap {
             overflow-x: auto;
-            border: 1px solid #d7e0eb;
-            border-radius: 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 720px;
+            min-width: 680px;
         }
 
         th,
         td {
             padding: 6px 8px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 0.83rem;
+            border-bottom: 1px solid var(--line);
+            font-size: 0.81rem;
         }
 
         th {
+            font-size: 0.66rem;
             text-transform: uppercase;
-            letter-spacing: 0.03em;
-            font-size: 0.72rem;
-            color: #4a5b71;
+            letter-spacing: 0.05em;
+            color: var(--ink-3);
             background: var(--paper);
             text-align: left;
             font-weight: 700;
         }
 
-        .money {
-            text-align: right;
-        }
+        tr:last-child td { border-bottom: none; }
+
+        .money { text-align: right; }
 
         .payment-method-section {
-            border: 1px solid #d4dce9;
+            border: 1px solid var(--line);
             border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: #f9fafb;
+            padding: 11px;
+            margin-bottom: 8px;
+            background: var(--paper);
         }
 
-        .payment-method-section:last-of-type {
-            margin-bottom: 0;
-        }
+        .payment-method-section:last-of-type { margin-bottom: 0; }
 
         .payment-method-title {
-            font-size: 0.8rem;
+            font-size: 0.68rem;
             font-weight: 700;
             text-transform: uppercase;
-            color: #2d3e50;
-            letter-spacing: 0.4px;
-            margin: 0 0 8px 0;
-            padding-bottom: 6px;
-            border-bottom: 2px solid #c7d4e2;
+            letter-spacing: 0.06em;
+            color: var(--ink-2);
+            margin: 0 0 8px;
+            padding-bottom: 7px;
+            border-bottom: 1px solid var(--line);
         }
 
-        .other-bank-input {
-            display: none;
-        }
-
-        .other-bank-input.show {
-            display: block;
-        }
+        .other-bank-input { display: none; }
+        .other-bank-input.show { display: block; }
 
         .template-info {
-            font-size: 0.75rem;
-            color: #666;
-            margin-top: 2px;
-            padding: 6px;
-            background: #f0f5fa;
-            border-radius: 4px;
-            border-left: 3px solid var(--accent);
+            font-size: 0.72rem;
+            color: var(--ink-3);
+            margin-top: 4px;
+            padding: 6px 8px;
+            background: var(--accent-light);
+            border-radius: 5px;
+            border-left: 2px solid var(--accent);
+            line-height: 1.4;
         }
 
-        .row-actions {
-            width: 98px;
-        }
+        .row-actions { width: 84px; }
 
         .totals-grid {
             display: grid;
-            gap: 8px;
-            max-width: 360px;
+            gap: 0;
+            max-width: 310px;
             margin-left: auto;
-            margin-top: 12px;
+            margin-top: 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .totals-grid .line {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             gap: 12px;
-            font-size: 0.93rem;
+            font-size: 0.82rem;
+            padding: 6px 10px;
+            border-bottom: 1px solid var(--line);
+            background: var(--paper);
+        }
+
+        .totals-grid .line:last-child {
+            border-bottom: none;
+            background: var(--accent-light);
         }
 
         .totals-grid .line strong {
             color: var(--accent-dark);
-            font-size: 1rem;
+            font-size: 0.88rem;
         }
 
         .checkbox-row {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            margin: 10px 0 2px;
         }
 
-        .checkbox-row input {
-            width: auto;
-            margin: 0;
-        }
+        .checkbox-row input { width: auto; margin: 0; }
 
         .actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .btn {
-            border: 0;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 0.92rem;
-            font-weight: 700;
+            border: 1px solid transparent;
+            border-radius: 7px;
+            padding: 7px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 120ms ease, background-color 120ms ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
+            font-family: inherit;
+            transition: background 120ms, border-color 120ms, box-shadow 120ms;
+            line-height: 1;
         }
 
         .btn-primary {
@@ -281,53 +319,59 @@
 
         .btn-primary:hover {
             background: var(--accent-dark);
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
         }
 
         .btn-outline {
-            border: 1px solid var(--line);
-            background: #fff;
-            color: var(--ink);
+            background: var(--panel);
+            color: var(--ink-2);
+            border-color: var(--line);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--line-2);
+            background: var(--paper);
         }
 
         .btn-danger {
-            border: 1px solid #fecaca;
+            background: var(--panel);
             color: var(--error);
-            background: #fff;
+            border-color: #fecaca;
+            font-size: 0.76rem;
+            padding: 5px 9px;
         }
 
+        .btn-danger:hover { background: var(--error-bg); }
+
         .error-box {
-            margin: 0 16px;
-            margin-top: 14px;
+            margin: 12px 15px;
             border: 1px solid #fecaca;
-            border-radius: 10px;
+            border-radius: 8px;
             background: var(--error-bg);
             color: #7f1d1d;
-            padding: 12px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
         }
 
         .error-box ul {
-            margin: 8px 0 0;
-            padding-left: 18px;
+            margin: 6px 0 0;
+            padding-left: 16px;
         }
 
         .preview {
             position: sticky;
-            top: 16px;
+            top: 14px;
             align-self: start;
-            padding: 0;
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            box-shadow: none;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: calc(100vh - 28px);
         }
 
         .preview-sheet {
-            background: #fff;
-            border: 1px solid #d4dce9;
+            background: var(--panel);
+            border: 1px solid var(--line);
             border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             padding: 12px;
             flex: 1;
             overflow-y: auto;
@@ -340,90 +384,91 @@
             display: grid;
             grid-template-columns: 1fr auto;
             gap: 8px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 9px;
+            margin-bottom: 9px;
         }
 
         .logo-preview {
-            width: 60px;
-            height: 60px;
+            width: 46px;
+            height: 46px;
             object-fit: contain;
-            border: 1px solid #d8e4f0;
-            border-radius: 6px;
-            background: #f8fbff;
+            border: 1px solid var(--line);
+            border-radius: 5px;
+            background: var(--paper);
             display: none;
         }
 
         .preview h3 {
             margin: 0;
-            font-size: 0.98rem;
+            font-size: 0.88rem;
+            font-weight: 700;
             line-height: 1.3;
         }
 
         .muted {
-            color: #666;
-            font-size: 0.78rem;
-            line-height: 1.4;
+            color: var(--ink-3);
+            font-size: 0.71rem;
+            line-height: 1.5;
         }
 
         .preview-meta {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 8px;
+            gap: 6px;
+            margin-bottom: 9px;
         }
 
         .preview-box {
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--line);
             border-radius: 6px;
-            padding: 6px;
-            font-size: 0.78rem;
-            background: #f9fafb;
-            min-height: auto;
+            padding: 7px 8px;
+            font-size: 0.74rem;
+            background: var(--paper);
         }
 
-        .preview table {
-            min-width: 0;
-            margin: 8px 0;
-        }
-
-        .preview th,
-        .preview td {
-            font-size: 0.75rem;
-            padding: 4px 6px;
-        }
-
-        .totals-grid {
-            margin: 6px 0;
-        }
-
-        .totals-grid .line {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            font-size: 0.8rem;
-            padding: 4px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .totals-grid .line strong {
+        .preview-box strong {
+            font-size: 0.63rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--ink-3);
+            display: block;
+            margin-bottom: 3px;
             font-weight: 700;
         }
 
+        .preview table { min-width: 0; margin: 6px 0; }
+
+        .preview th,
+        .preview td {
+            font-size: 0.71rem;
+            padding: 4px 5px;
+        }
+
+        .preview .totals-grid {
+            max-width: none;
+            margin: 6px 0 0;
+            border-radius: 6px;
+        }
+
+        .preview .totals-grid .line {
+            font-size: 0.73rem;
+            padding: 5px 8px;
+        }
+
         .footer-note {
-            border-top: 1px solid #d4e2ef;
-            margin-top: auto;
-            padding-top: 6px;
-            padding-bottom: 0;
-            font-size: 0.68rem;
-            color: #888;
-            line-height: 1.3;
+            border-top: 1px solid var(--line);
+            margin-top: 8px;
+            padding-top: 7px;
+            font-size: 0.62rem;
+            color: #94a3b8;
+            line-height: 1.4;
             flex-shrink: 0;
         }
 
         @media (min-width: 1100px) {
             .layout {
-                grid-template-columns: minmax(0, 1fr) 470px;
+                grid-template-columns: minmax(0, 1fr) 420px;
                 align-items: start;
             }
         }
@@ -440,27 +485,36 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .preview {
+                height: auto;
+                position: static;
+            }
         }
     </style>
 </head>
 <body>
     @php
         $oldItems = old('items', [['description' => '', 'qty' => 1, 'price' => 0]]);
+        $docType = $docType ?? 'Quotation';
+        $docPrefix = $docType === 'Invoice' ? 'INV' : ($docType === 'Receipt' ? 'REC' : 'QT');
+        $docNoDefault = $docPrefix . '-' . now()->format('Ymd-His');
     @endphp
 
     <main class="shell">
         <header class="page-header">
             <div>
-                <h1 class="title">Quotation Builder</h1>
-                <p class="subtitle">Fill details on the left and monitor the live quotation preview on the right.</p>
+                <div class="brand-label">Quick Docs</div>
+                <h1 class="title">{{ $docType }} Builder</h1>
+                <p class="subtitle">Fill in the form and preview your {{ strtolower($docType) }} in real time.</p>
             </div>
-            <a href="{{ route('landing') }}" class="back-link">Back To Landing</a>
+            <a href="{{ route('landing') }}" class="back-link">&#8592; All Documents</a>
         </header>
 
         <div class="layout">
             <form action="{{ route('generate.pdf') }}" method="POST" enctype="multipart/form-data" class="card" id="quotation-form">
                 @csrf
-                <input type="hidden" name="doc_type" value="Quotation">
+                <input type="hidden" name="doc_type" value="{{ $docType }}">
                 <input type="hidden" name="vat_rate" value="16">
 
                 @if ($errors->any())
@@ -550,20 +604,22 @@
                 </section>
 
                 <section class="section">
-                    <h2 class="section-title">Quotation Details</h2>
+                    <h2 class="section-title">{{ $docType }} Details</h2>
                     <div class="grid">
                         <div class="col-4">
-                            <label for="quote_no">Quote No.</label>
-                            <input id="quote_no" name="quote_no" type="text" value="{{ old('quote_no', 'QT-' . now()->format('Ymd-His')) }}" required>
+                            <label for="quote_no">{{ $docType }} No.</label>
+                            <input id="quote_no" name="quote_no" type="text" value="{{ old('quote_no', $docNoDefault) }}" required>
                         </div>
                         <div class="col-4">
-                            <label for="quote_date">Quote Date</label>
+                            <label for="quote_date">{{ $docType }} Date</label>
                             <input id="quote_date" name="quote_date" type="date" value="{{ old('quote_date', now()->toDateString()) }}" required>
                         </div>
+                        @if($docType !== 'Receipt')
                         <div class="col-4">
-                            <label for="expiry_date">Expiry Date</label>
+                            <label for="expiry_date">{{ $docType === 'Invoice' ? 'Due Date' : 'Expiry Date' }}</label>
                             <input id="expiry_date" name="expiry_date" type="date" value="{{ old('expiry_date', now()->addDays(14)->toDateString()) }}" required>
                         </div>
+                        @endif
                     </div>
                 </section>
 
@@ -714,10 +770,11 @@
                         </div>
                     </div>
                 </section>
+                @endif
 
                 <section class="section">
                     <div class="actions">
-                        <button type="submit" class="btn btn-primary">Generate Quotation PDF</button>
+                        <button type="submit" class="btn btn-primary">Generate {{ $docType }} PDF</button>
                     </div>
                 </section>
             </form>
@@ -743,7 +800,7 @@
                             <div id="pv-customer"></div>
                         </div>
                         <div class="preview-box">
-                            <strong>Quotation</strong>
+                            <strong>{{ $docType }}</strong>
                             <div id="pv-quote"></div>
                         </div>
                     </div>
@@ -771,8 +828,8 @@
                         <div id="pv-terms" class="muted"></div>
                     </div>
 
-                    <div class="preview-box" style="margin-top: 10px; min-height: 64px;">
-                        <strong>Payment Details</strong>
+                    <div class="preview-box" style="margin-top: 10px;" id="pv-payment-box">
+                        <strong id="pv-payment-label">{{ $docType === 'Receipt' ? 'Payment Received' : 'Payment Details' }}</strong>
                         <div id="pv-payment" class="muted"></div>
                     </div>
 
@@ -858,6 +915,11 @@
             }
 
             function buildPaymentPreviewHtml() {
+                @if($docType === 'Receipt')
+                const methodEl = document.getElementById('payment_method_received');
+                const method = methodEl ? methodEl.value : '';
+                return method ? ('<strong>Paid Via:</strong> ' + method) : '-';
+                @else
                 const bankNameSelect = document.getElementById('bank_name').value;
                 const bankNameVal = bankNameSelect === 'Other' 
                     ? document.getElementById('bank_name_other').value 
@@ -900,6 +962,7 @@
                 }
 
                 return parts.join('<br><br>') || '-';
+                @endif
             }
 
             function updatePreview() {
@@ -936,11 +999,17 @@
                     document.getElementById('customer_email').value
                 ].filter(Boolean).join('<br>');
 
-                const quoteInfo = [
-                    'Quote No.: ' + (document.getElementById('quote_no').value || '-'),
-                    'Quote Date: ' + (document.getElementById('quote_date').value || '-'),
-                    'Expiry Date: ' + (document.getElementById('expiry_date').value || '-'),
-                ].join('<br>');
+                const docType = '{{ $docType }}';
+                const expiryEl = document.getElementById('expiry_date');
+                const expiryLabel = docType === 'Invoice' ? 'Due Date' : 'Expiry Date';
+                const quoteInfoParts = [
+                    docType + ' No.: ' + (document.getElementById('quote_no').value || '-'),
+                    docType + ' Date: ' + (document.getElementById('quote_date').value || '-'),
+                ];
+                if (expiryEl) {
+                    quoteInfoParts.push(expiryLabel + ': ' + (expiryEl.value || '-'));
+                }
+                const quoteInfo = quoteInfoParts.join('<br>');
 
                 document.getElementById('pv-seller-name').textContent = sellerName;
                 document.getElementById('pv-seller-info').textContent = sellerInfo;
@@ -1036,6 +1105,7 @@
             const otherBankInput = document.querySelector('.other-bank-input');
 
             function updateBankSelection() {
+                if (!bankNameSelect) return;
                 if (bankNameSelect.value === 'Other') {
                     otherBankInput.classList.add('show');
                     document.getElementById('bank_name_other').focus();
@@ -1044,12 +1114,13 @@
                 }
             }
 
-            bankNameSelect.addEventListener('change', function() {
+            if (bankNameSelect) {
+                bankNameSelect.addEventListener('change', function() {
+                    updateBankSelection();
+                    updatePreview();
+                });
                 updateBankSelection();
-                updatePreview();
-            });
-
-            updateBankSelection();
+            }
 
             // Mobile phone validation
             const networkSelect = document.getElementById('mobile_network_provider');

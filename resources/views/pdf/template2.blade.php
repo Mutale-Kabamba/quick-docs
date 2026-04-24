@@ -74,9 +74,14 @@
                     @endif
                 </div>
                 <div class="title">{{ strtoupper($doc_type) }}</div>
-                <table class="doc-meta" style="margin-top: 10px;">
+                    <table class="doc-meta" style="margin-top: 10px;">
                     <tr><td>Date</td><td style="text-align: right;">{{ \Carbon\Carbon::parse($quote_date)->format('d-m-Y') }}</td></tr>
                     <tr><td>{{ strtoupper($doc_type) }} #</td><td style="text-align: right;">{{ $quote_no }}</td></tr>
+                    @if($doc_type === 'Invoice' && !empty($expiry_date))
+                    <tr><td>Due Date</td><td style="text-align: right;">{{ \Carbon\Carbon::parse($expiry_date)->format('d-m-Y') }}</td></tr>
+                    @elseif($doc_type === 'Quotation' && !empty($expiry_date))
+                    <tr><td>Expiry Date</td><td style="text-align: right;">{{ \Carbon\Carbon::parse($expiry_date)->format('d-m-Y') }}</td></tr>
+                    @endif
                 </table>
             </td>
         </tr>
@@ -135,16 +140,26 @@
     </table>
 
     <div style="clear: both; margin-top: 22px;">
+        @if($doc_type === 'Receipt')
+        @if(!empty($payment_method_received))
+        <div class="meta-card" style="margin-bottom: 12px;">
+            <div class="meta-label">Payment Received</div>
+            <div><strong>Paid Via:</strong> {{ $payment_method_received }}</div>
+            <div style="margin-top: 6px; color: #1a6e3c; font-weight: bold;">&#10003; PAID IN FULL</div>
+        </div>
+        @endif
+        @else
         @if(!empty($payment_details))
         <div class="meta-card" style="margin-bottom: 12px;">
             <div class="meta-label">Payment Details</div>
             <div style="white-space: pre-wrap;">{{ $payment_details }}</div>
         </div>
         @endif
+        @endif
 
         @if(!empty($terms_conditions))
         <div class="meta-card">
-            <div class="meta-label">Terms & Conditions</div>
+            <div class="meta-label">{{ $doc_type === 'Receipt' ? 'Notes' : 'Terms &amp; Conditions' }}</div>
             <div style="white-space: pre-wrap;">{{ $terms_conditions }}</div>
         </div>
         @endif

@@ -14,7 +14,17 @@ class DocumentController extends Controller
 
     public function index()
     {
-        return view('home');
+        return view('home', ['docType' => 'Quotation']);
+    }
+
+    public function invoice()
+    {
+        return view('home', ['docType' => 'Invoice']);
+    }
+
+    public function receipt()
+    {
+        return view('home', ['docType' => 'Receipt']);
     }
 
     public function generate(Request $request)
@@ -42,7 +52,8 @@ class DocumentController extends Controller
             'customer_email' => 'nullable|email|max:255',
             'quote_no' => 'required|string|max:100',
             'quote_date' => 'required|date',
-            'expiry_date' => 'required|date|after_or_equal:quote_date',
+            'expiry_date' => $request->input('doc_type') === 'Receipt' ? 'nullable|date' : 'required|date|after_or_equal:quote_date',
+            'payment_method_received' => 'nullable|string|max:100',
             'vat_rate' => 'nullable|numeric|min:0|max:100',
             'terms_conditions' => 'nullable|string|max:3000',
             'bank_name' => 'nullable|string|max:255',

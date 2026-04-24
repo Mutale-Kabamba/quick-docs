@@ -74,7 +74,7 @@
         </table>
     </div>
 
-    <div class="title">QUOTATION</div>
+    <div class="title">{{ strtoupper($doc_type) }}</div>
 
     <table class="meta-wrap">
         <tr>
@@ -90,10 +90,14 @@
             </td>
             <td style="width: 48%; padding-left: 8px;">
                 <div class="box">
-                    <div class="box-title">Quotation Details</div>
-                    <div><strong>Quote No.:</strong> {{ $quote_no }}</div>
-                    <div><strong>Quote Date:</strong> {{ \Carbon\Carbon::parse($quote_date)->format('d M Y') }}</div>
+                    <div class="box-title">{{ $doc_type }} Details</div>
+                    <div><strong>{{ $doc_type }} No.:</strong> {{ $quote_no }}</div>
+                    <div><strong>{{ $doc_type }} Date:</strong> {{ \Carbon\Carbon::parse($quote_date)->format('d M Y') }}</div>
+                    @if($doc_type === 'Invoice' && !empty($expiry_date))
+                    <div><strong>Due Date:</strong> {{ \Carbon\Carbon::parse($expiry_date)->format('d M Y') }}</div>
+                    @elseif($doc_type === 'Quotation' && !empty($expiry_date))
                     <div><strong>Expiry Date:</strong> {{ \Carbon\Carbon::parse($expiry_date)->format('d M Y') }}</div>
+                    @endif
                 </div>
             </td>
         </tr>
@@ -139,12 +143,19 @@
         <tr>
             <td style="width: 50%; padding-right: 8px; vertical-align: top;">
                 <div class="note-box">
-                    <div class="box-title">T&amp;Cs</div>
+                    <div class="box-title">{{ $doc_type === 'Receipt' ? 'Notes' : 'T&amp;Cs' }}</div>
                     {!! nl2br(e($terms_conditions ?? '')) !!}
                 </div>
             </td>
             <td style="width: 50%; padding-left: 8px; vertical-align: top;">
                 <div class="note-box">
+                    @if($doc_type === 'Receipt')
+                    <div class="box-title">Payment Received</div>
+                    @if(!empty($payment_method_received))
+                    <div><strong>Paid Via:</strong> {{ $payment_method_received }}</div>
+                    @endif
+                    <div style="margin-top: 10px; color: #0b5c49; font-weight: bold; font-size: 16px;">&#10003; PAID IN FULL</div>
+                    @else
                     <div class="box-title">Payment Details</div>
                     @php
                         $hasBank = !empty($bank_name) || !empty($account_name) || !empty($account_no) || !empty($branch) || !empty($branch_code) || !empty($sort_code) || !empty($swift_code);
@@ -171,6 +182,7 @@
                         @if(!empty($mobile_network_provider))<div>Network Provider: {{ $mobile_network_provider }}</div>@endif
                         @if(!empty($mobile_phone_no))<div>Phone No: {{ $mobile_phone_no }}</div>@endif
                         @if(!empty($mobile_account_name))<div>Account Name: {{ $mobile_account_name }}</div>@endif
+                    @endif
                     @endif
                 </div>
             </td>

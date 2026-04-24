@@ -111,16 +111,25 @@
         <tr><td class="grand-total">Total</td><td class="grand-total" style="text-align: right;">ZMW {{ number_format($grand_total, 2) }}</td></tr>
     </table>
 
+    @if($doc_type === 'Receipt')
+    @if(!empty($payment_method_received))
+    <div style="clear: both; margin-top: 30px;">
+        <strong>Payment Received Via:</strong> {{ $payment_method_received }}
+        <span style="margin-left: 20px; color: #1a7a3c; font-weight: bold;">&#10003; PAID IN FULL</span>
+    </div>
+    @endif
+    @else
     @if(!empty($payment_details))
     <div style="clear: both; margin-top: 40px;">
         <strong>Payment Details:</strong>
         <p style="white-space: pre-wrap; font-size: 12px;">{{ $payment_details }}</p>
     </div>
     @endif
+    @endif
 
     @if(!empty($terms_conditions))
     <div style="margin-top: 20px;">
-        <strong>Terms & Conditions:</strong>
+        <strong>{{ $doc_type === 'Receipt' ? 'Notes' : 'Terms &amp; Conditions' }}:</strong>
         <p style="white-space: pre-wrap; font-size: 12px;">{{ $terms_conditions }}</p>
     </div>
     @endif
