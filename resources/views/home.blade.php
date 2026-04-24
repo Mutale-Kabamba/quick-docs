@@ -770,7 +770,6 @@
                         </div>
                     </div>
                 </section>
-                @endif
 
                 <section class="section">
                     <div class="actions">
