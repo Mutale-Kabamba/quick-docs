@@ -143,7 +143,7 @@
         <tr>
             <td style="width: 50%; padding-right: 8px; vertical-align: top;">
                 <div class="note-box">
-                    <div class="box-title">{{ $doc_type === 'Receipt' ? 'Notes' : 'T&amp;Cs' }}</div>
+                    <div class="box-title">{{ $doc_type === 'Receipt' ? 'Notes' : 'T&Cs' }}</div>
                     {!! nl2br(e($terms_conditions ?? '')) !!}
                 </div>
             </td>
