@@ -213,7 +213,7 @@
             </article>
         </section>
 
-        <p class="footer">Quick Docs &mdash; Powered by Ori Studio Limited</p>
+        <p class="footer">Quick Docs &mdash; Powered by <a href="https://www.oristudiozm.com" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">Ori Studio Limited</a></p>
     </main>
 </body>
 </html>

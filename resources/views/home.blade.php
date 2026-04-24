@@ -832,7 +832,7 @@
                         <div id="pv-payment" class="muted"></div>
                     </div>
 
-                    <div class="footer-note">System time generated: <span id="pv-time">{{ now()->format('Y-m-d H:i:s') }}</span> | Ori Studio Limited Business Docs</div>
+                    <div class="footer-note">System time generated: <span id="pv-time">{{ now()->format('Y-m-d H:i:s') }}</span> | <a href="https://www.oristudiozm.com" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">Ori Studio Limited</a> Business Docs</div>
                 </div>
             </aside>
         </div>
