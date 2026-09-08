@@ -952,9 +952,9 @@
                     method = otherEl.value.trim();
                 }
                 if (method) {
-                    return '<strong>Paid Via:</strong> ' + method + '<br><span style="display:inline-block;margin-top:4px;color:#059669;font-weight:700;">&#10003; PAID IN FULL</span>';
+                    return '<strong>Paid Via:</strong> ' + method + '<br><span style="display:inline-block;margin-top:6px;padding:3px 8px;background:#ecfdf5;color:#047857;border:1px solid #059669;border-radius:4px;font-weight:700;font-size:0.75rem;letter-spacing:0.04em;">PAID IN FULL</span>';
                 }
-                return '<span style="display:inline-block;margin-top:4px;color:#059669;font-weight:700;">&#10003; PAID IN FULL</span>';
+                return '<span style="display:inline-block;margin-top:6px;padding:3px 8px;background:#ecfdf5;color:#047857;border:1px solid #059669;border-radius:4px;font-weight:700;font-size:0.75rem;letter-spacing:0.04em;">PAID IN FULL</span>';
                 @else
                 const bankNameSelect = document.getElementById('bank_name');
                 const bankNameVal = bankNameSelect && bankNameSelect.value === 'Other' 

@@ -62,6 +62,7 @@
                 @if(!empty($seller_email))<div>{{ $seller_email }}</div>@endif
             </td>
             <td style="width: 42%;">
+                @if(!empty($logo_data_uri) || !empty($logo_file_uri) || !empty($logo_abs_path))
                 <div class="logo-wrap">
                     @if(!empty($logo_data_uri))
                         <img src="{{ $logo_data_uri }}" class="logo" alt="logo" />
@@ -69,10 +70,9 @@
                         <img src="{{ $logo_file_uri }}" class="logo" alt="logo" />
                     @elseif(!empty($logo_abs_path))
                         <img src="{{ $logo_abs_path }}" class="logo" alt="logo" />
-                    @else
-                        <span class="logo-fallback">OS</span>
                     @endif
                 </div>
+                @endif
                 <div class="title">{{ strtoupper($doc_type) }}</div>
                     <table class="doc-meta" style="margin-top: 10px;">
                     <tr><td>Date</td><td style="text-align: right;">{{ \Carbon\Carbon::parse($quote_date)->format('d-m-Y') }}</td></tr>
@@ -144,9 +144,9 @@
         <div class="meta-card" style="margin-bottom: 12px;">
             <div class="meta-label">Payment Received</div>
             @if(!empty($payment_method_received))
-            <div><strong>Paid Via:</strong> {{ $payment_method_received }}</div>
+            <div style="margin-bottom: 8px;"><strong>Paid Via:</strong> {{ $payment_method_received }}</div>
             @endif
-            <div style="margin-top: 6px; color: #1a6e3c; font-weight: bold;">&#10003; PAID IN FULL</div>
+            <div><span style="display: inline-block; padding: 4px 10px; background-color: #e6f4ea; color: #137333; border: 1px solid #137333; border-radius: 4px; font-weight: bold; font-size: 11px; letter-spacing: 0.5px;">PAID IN FULL</span></div>
         </div>
         @else
         @if(!empty($payment_details))

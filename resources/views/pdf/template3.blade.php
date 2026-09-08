@@ -66,8 +66,6 @@
                         <img src="{{ $logo_file_uri }}" class="logo" alt="logo" style="display:block; margin-left:auto;" />
                     @elseif(!empty($logo_abs_path))
                         <img src="{{ $logo_abs_path }}" class="logo" alt="logo" style="display:block; margin-left:auto;" />
-                    @else
-                        <span class="logo-fallback">OS</span>
                     @endif
                 </td>
             </tr>
@@ -152,9 +150,9 @@
                     @if($doc_type === 'Receipt')
                     <div class="box-title">Payment Received</div>
                     @if(!empty($payment_method_received))
-                    <div><strong>Paid Via:</strong> {{ $payment_method_received }}</div>
+                    <div style="margin-bottom: 8px;"><strong>Paid Via:</strong> {{ $payment_method_received }}</div>
                     @endif
-                    <div style="margin-top: 10px; color: #0b5c49; font-weight: bold; font-size: 16px;">&#10003; PAID IN FULL</div>
+                    <div><span style="display: inline-block; padding: 4px 10px; background-color: #e6f4ea; color: #0b5c49; border: 1px solid #0b5c49; border-radius: 4px; font-weight: bold; font-size: 11px; letter-spacing: 0.5px;">PAID IN FULL</span></div>
                     @else
                     <div class="box-title">Payment Details</div>
                     @php

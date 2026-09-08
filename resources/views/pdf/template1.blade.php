@@ -50,6 +50,7 @@
                 <p>{{ $seller_address }}<br>{{ $seller_phone }}@if(!empty($seller_email))<br>{{ $seller_email }}@endif</p>
             </td>
             <td class="doc-title theme-color">
+                @if(!empty($logo_data_uri) || !empty($logo_file_uri) || !empty($logo_abs_path))
                 <div class="logo-wrap">
                     @if(!empty($logo_data_uri))
                         <img src="{{ $logo_data_uri }}" class="logo" alt="logo" />
@@ -57,10 +58,9 @@
                         <img src="{{ $logo_file_uri }}" class="logo" alt="logo" />
                     @elseif(!empty($logo_abs_path))
                         <img src="{{ $logo_abs_path }}" class="logo" alt="logo" />
-                    @else
-                        <span class="logo-fallback">OS</span>
                     @endif
                 </div>
+                @endif
                 {{ strtoupper($doc_type) }}
             </td>
         </tr>
@@ -115,9 +115,9 @@
     <div style="clear: both; margin-top: 30px;">
         @if(!empty($payment_method_received))
         <strong>Payment Received Via:</strong> {{ $payment_method_received }}
-        <span style="margin-left: 20px; color: #1a7a3c; font-weight: bold;">&#10003; PAID IN FULL</span>
+        <span style="margin-left: 15px; display: inline-block; padding: 4px 10px; background-color: #e6f4ea; color: #137333; border: 1px solid #137333; border-radius: 4px; font-weight: bold; font-size: 11px; letter-spacing: 0.5px;">PAID IN FULL</span>
         @else
-        <span style="color: #1a7a3c; font-weight: bold;">&#10003; PAID IN FULL</span>
+        <span style="display: inline-block; padding: 4px 10px; background-color: #e6f4ea; color: #137333; border: 1px solid #137333; border-radius: 4px; font-weight: bold; font-size: 11px; letter-spacing: 0.5px;">PAID IN FULL</span>
         @endif
     </div>
     @else
