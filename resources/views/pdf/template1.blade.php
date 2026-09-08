@@ -47,7 +47,7 @@
         <tr>
             <td>
                 <h2>{{ $seller_name ?? 'Ori Studio Limited' }}</h2>
-                <p>{{ $seller_address }}<br>{{ $seller_phone }}<br>{{ $seller_email }}</p>
+                <p>{{ $seller_address }}<br>{{ $seller_phone }}@if(!empty($seller_email))<br>{{ $seller_email }}@endif</p>
             </td>
             <td class="doc-title theme-color">
                 <div class="logo-wrap">
@@ -71,7 +71,7 @@
             <td style="width: 50%;">
                 <strong class="theme-color">Bill To</strong><br>
                 <span style="font-size: 18px;">{{ $customer_name }}</span><br>
-                {{ $customer_address }}<br>{{ $customer_email }}
+                {{ $customer_address }}@if(!empty($customer_email))<br>{{ $customer_email }}@endif
             </td>
             <td style="width: 50%;">
                 <table>
@@ -112,12 +112,14 @@
     </table>
 
     @if($doc_type === 'Receipt')
-    @if(!empty($payment_method_received))
     <div style="clear: both; margin-top: 30px;">
+        @if(!empty($payment_method_received))
         <strong>Payment Received Via:</strong> {{ $payment_method_received }}
         <span style="margin-left: 20px; color: #1a7a3c; font-weight: bold;">&#10003; PAID IN FULL</span>
+        @else
+        <span style="color: #1a7a3c; font-weight: bold;">&#10003; PAID IN FULL</span>
+        @endif
     </div>
-    @endif
     @else
     @if(!empty($payment_details))
     <div style="clear: both; margin-top: 40px;">

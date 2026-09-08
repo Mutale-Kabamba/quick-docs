@@ -141,13 +141,13 @@
 
     <div style="clear: both; margin-top: 22px;">
         @if($doc_type === 'Receipt')
-        @if(!empty($payment_method_received))
         <div class="meta-card" style="margin-bottom: 12px;">
             <div class="meta-label">Payment Received</div>
+            @if(!empty($payment_method_received))
             <div><strong>Paid Via:</strong> {{ $payment_method_received }}</div>
+            @endif
             <div style="margin-top: 6px; color: #1a6e3c; font-weight: bold;">&#10003; PAID IN FULL</div>
         </div>
-        @endif
         @else
         @if(!empty($payment_details))
         <div class="meta-card" style="margin-bottom: 12px;">

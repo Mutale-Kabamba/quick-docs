@@ -32,6 +32,7 @@ class DocumentController extends Controller
         // Custom validation messages
         $messages = [
             'bank_name_other.required_if' => 'Please specify your bank name when selecting "Other".',
+            'payment_method_received_other.required_if' => 'Please specify the payment method when selecting "Other".',
             'mobile_phone_no.required_if' => 'Mobile phone number is required when a network provider is selected.',
         ];
 
@@ -54,6 +55,7 @@ class DocumentController extends Controller
             'quote_date' => 'required|date',
             'expiry_date' => $request->input('doc_type') === 'Receipt' ? 'nullable|date' : 'required|date|after_or_equal:quote_date',
             'payment_method_received' => 'nullable|string|max:100',
+            'payment_method_received_other' => 'nullable|required_if:payment_method_received,Other|string|max:255',
             'vat_rate' => 'nullable|numeric|min:0|max:100',
             'terms_conditions' => 'nullable|string|max:3000',
             'bank_name' => 'nullable|string|max:255',
@@ -114,42 +116,54 @@ class DocumentController extends Controller
         $validated['grand_total'] = $grandTotal;
         $validated['generated_at'] = now()->format('Y-m-d H:i:s');
 
-        // Use bank_name_other if bank_name is "Other"
-        $finalBankName = ($validated['bank_name'] === 'Other') 
-            ? ($validated['bank_name_other'] ?? '')
-            : ($validated['bank_name'] ?? '');
-        
-        // Update bank_name to the actual name for PDF generation
-        $validated['bank_name'] = $finalBankName;
-
-        $bankFields = array_filter([
-            'Bank Name: ' . $finalBankName,
-            'Account Name: ' . ($validated['account_name'] ?? ''),
-            'Account No: ' . ($validated['account_no'] ?? ''),
-            'Branch: ' . ($validated['branch'] ?? ''),
-            'Branch Code: ' . ($validated['branch_code'] ?? ''),
-            'Sort Code: ' . ($validated['sort_code'] ?? ''),
-            'Swift Code: ' . ($validated['swift_code'] ?? ''),
-        ], function ($line) {
-            return !str_ends_with($line, ': ');
-        });
-
-        $mobileFields = array_filter([
-            'Network Provider: ' . ($validated['mobile_network_provider'] ?? ''),
-            'Phone No: ' . ($validated['mobile_phone_no'] ?? ''),
-            'Account Name: ' . ($validated['mobile_account_name'] ?? ''),
-        ], function ($line) {
-            return !str_ends_with($line, ': ');
-        });
-
-        $paymentSections = [];
-        if (!empty($bankFields)) {
-            $paymentSections[] = "Bank\n" . implode("\n", $bankFields);
+        // Resolve payment method for receipts
+        $paymentMethodReceived = $validated['payment_method_received'] ?? null;
+        if ($paymentMethodReceived === 'Other' && !empty($validated['payment_method_received_other'])) {
+            $paymentMethodReceived = $validated['payment_method_received_other'];
         }
-        if (!empty($mobileFields)) {
-            $paymentSections[] = "Mobile Money\n" . implode("\n", $mobileFields);
+        $validated['payment_method_received'] = $paymentMethodReceived;
+
+        if ($validated['doc_type'] === 'Receipt') {
+            $validated['payment_details'] = null;
+        } else {
+            // Use bank_name_other if bank_name is "Other"
+            $bankName = $validated['bank_name'] ?? '';
+            $finalBankName = ($bankName === 'Other') 
+                ? ($validated['bank_name_other'] ?? '')
+                : $bankName;
+            
+            // Update bank_name to the actual name for PDF generation
+            $validated['bank_name'] = $finalBankName;
+
+            $bankFields = array_filter([
+                'Bank Name: ' . $finalBankName,
+                'Account Name: ' . ($validated['account_name'] ?? ''),
+                'Account No: ' . ($validated['account_no'] ?? ''),
+                'Branch: ' . ($validated['branch'] ?? ''),
+                'Branch Code: ' . ($validated['branch_code'] ?? ''),
+                'Sort Code: ' . ($validated['sort_code'] ?? ''),
+                'Swift Code: ' . ($validated['swift_code'] ?? ''),
+            ], function ($line) {
+                return !str_ends_with($line, ': ');
+            });
+
+            $mobileFields = array_filter([
+                'Network Provider: ' . ($validated['mobile_network_provider'] ?? ''),
+                'Phone No: ' . ($validated['mobile_phone_no'] ?? ''),
+                'Account Name: ' . ($validated['mobile_account_name'] ?? ''),
+            ], function ($line) {
+                return !str_ends_with($line, ': ');
+            });
+
+            $paymentSections = [];
+            if (!empty($bankFields)) {
+                $paymentSections[] = "Bank\n" . implode("\n", $bankFields);
+            }
+            if (!empty($mobileFields)) {
+                $paymentSections[] = "Mobile Money\n" . implode("\n", $mobileFields);
+            }
+            $validated['payment_details'] = implode("\n\n", $paymentSections);
         }
-        $validated['payment_details'] = implode("\n\n", $paymentSections);
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
@@ -165,9 +179,35 @@ class DocumentController extends Controller
             }
         }
 
+        $defaultKeys = [
+            'seller_email' => null,
+            'customer_email' => null,
+            'seller_tpin' => null,
+            'seller_pacra' => null,
+            'customer_tpin' => null,
+            'terms_conditions' => null,
+            'expiry_date' => null,
+            'payment_method_received' => null,
+            'payment_details' => null,
+            'bank_name' => null,
+            'account_name' => null,
+            'account_no' => null,
+            'branch' => null,
+            'branch_code' => null,
+            'sort_code' => null,
+            'swift_code' => null,
+            'mobile_network_provider' => null,
+            'mobile_phone_no' => null,
+            'mobile_account_name' => null,
+            'logo_data_uri' => null,
+            'logo_file_uri' => null,
+            'logo_abs_path' => null,
+        ];
+        $pdfData = array_merge($defaultKeys, $validated);
+
         // Dynamically load the chosen template
         $viewName = 'pdf.template' . $template;
-        $pdf = Pdf::loadView($viewName, $validated);
+        $pdf = Pdf::loadView($viewName, $pdfData);
 
         $fileName = strtolower($validated['doc_type']) . '-' . time() . '.pdf';
         return $pdf->download($fileName);

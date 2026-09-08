@@ -239,6 +239,8 @@
 
         .other-bank-input { display: none; }
         .other-bank-input.show { display: block; }
+        .other-method-input { display: none; }
+        .other-method-input.show { display: block; }
 
         .template-info {
             font-size: 0.72rem;
@@ -677,13 +679,40 @@
                 </section>
 
                 <section class="section">
-                    <h2 class="section-title">Terms & Conditions</h2>
-                    <textarea id="terms_conditions" name="terms_conditions" placeholder="Enter your terms and conditions here...">{{ old('terms_conditions') }}</textarea>
+                    <h2 class="section-title">{{ $docType === 'Receipt' ? 'Notes / Remarks' : 'Terms & Conditions' }}</h2>
+                    <textarea id="terms_conditions" name="terms_conditions" placeholder="{{ $docType === 'Receipt' ? 'Enter any notes or remarks (optional)...' : 'Enter your terms and conditions here...' }}">{{ old('terms_conditions') }}</textarea>
                 </section>
 
                 <section class="section">
-                    <h2 class="section-title">Payment Details</h2>
+                    <h2 class="section-title">{{ $docType === 'Receipt' ? 'Payment Received' : 'Payment Details' }}</h2>
                     
+                    @if($docType === 'Receipt')
+                    <!-- Receipt Payment Method Section -->
+                    <div class="payment-method-section">
+                        <div class="payment-method-title">Method Used to Pay</div>
+                        <div class="grid">
+                            <div class="col-12">
+                                <label for="payment_method_received">Payment Method</label>
+                                <select id="payment_method_received" name="payment_method_received">
+                                    <option value="">-- Select Payment Method --</option>
+                                    <option value="Cash" {{ old('payment_method_received', 'Cash') === 'Cash' ? 'selected' : '' }}>Cash</option>
+                                    <option value="Bank Transfer" {{ old('payment_method_received') === 'Bank Transfer' ? 'selected' : '' }}>Bank Transfer</option>
+                                    <option value="Mobile Money (MTN)" {{ old('payment_method_received') === 'Mobile Money (MTN)' ? 'selected' : '' }}>Mobile Money (MTN)</option>
+                                    <option value="Mobile Money (Airtel)" {{ old('payment_method_received') === 'Mobile Money (Airtel)' ? 'selected' : '' }}>Mobile Money (Airtel)</option>
+                                    <option value="Mobile Money (Zamtel)" {{ old('payment_method_received') === 'Mobile Money (Zamtel)' ? 'selected' : '' }}>Mobile Money (Zamtel)</option>
+                                    <option value="Debit / Credit Card" {{ old('payment_method_received') === 'Debit / Credit Card' ? 'selected' : '' }}>Debit / Credit Card</option>
+                                    <option value="Cheque" {{ old('payment_method_received') === 'Cheque' ? 'selected' : '' }}>Cheque</option>
+                                    <option value="EFT (Electronic Funds Transfer)" {{ old('payment_method_received') === 'EFT (Electronic Funds Transfer)' ? 'selected' : '' }}>EFT (Electronic Funds Transfer)</option>
+                                    <option value="Other" {{ old('payment_method_received') === 'Other' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </div>
+                            <div class="col-12 other-method-input {{ old('payment_method_received') === 'Other' || old('payment_method_received_other') ? 'show' : '' }}" id="other-method-group">
+                                <label for="payment_method_received_other">Specify Payment Method</label>
+                                <input id="payment_method_received_other" name="payment_method_received_other" type="text" placeholder="e.g. Visa Card, Direct Deposit, PayPal" value="{{ old('payment_method_received_other') }}">
+                            </div>
+                        </div>
+                    </div>
+                    @else
                     <!-- Bank Details Section -->
                     <div class="payment-method-section">
                         <div class="payment-method-title">Bank Transfer</div>
@@ -769,6 +798,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </section>
 
                 <section class="section">
@@ -823,7 +853,7 @@
                     </div>
 
                     <div class="preview-box" style="margin-top: 10px; min-height: 64px;">
-                        <strong>T&Cs</strong>
+                        <strong id="pv-terms-label">{{ $docType === 'Receipt' ? 'Notes' : 'T&Cs' }}</strong>
                         <div id="pv-terms" class="muted"></div>
                     </div>
 
@@ -916,30 +946,41 @@
             function buildPaymentPreviewHtml() {
                 @if($docType === 'Receipt')
                 const methodEl = document.getElementById('payment_method_received');
-                const method = methodEl ? methodEl.value : '';
-                return method ? ('<strong>Paid Via:</strong> ' + method) : '-';
+                const otherEl = document.getElementById('payment_method_received_other');
+                let method = methodEl ? methodEl.value : '';
+                if (method === 'Other' && otherEl && otherEl.value.trim()) {
+                    method = otherEl.value.trim();
+                }
+                if (method) {
+                    return '<strong>Paid Via:</strong> ' + method + '<br><span style="display:inline-block;margin-top:4px;color:#059669;font-weight:700;">&#10003; PAID IN FULL</span>';
+                }
+                return '<span style="display:inline-block;margin-top:4px;color:#059669;font-weight:700;">&#10003; PAID IN FULL</span>';
                 @else
-                const bankNameSelect = document.getElementById('bank_name').value;
-                const bankNameVal = bankNameSelect === 'Other' 
-                    ? document.getElementById('bank_name_other').value 
-                    : bankNameSelect;
+                const bankNameSelect = document.getElementById('bank_name');
+                const bankNameVal = bankNameSelect && bankNameSelect.value === 'Other' 
+                    ? (document.getElementById('bank_name_other') ? document.getElementById('bank_name_other').value : '')
+                    : (bankNameSelect ? bankNameSelect.value : '');
 
                 const bankFields = [
                     { label: 'Bank Name', value: bankNameVal },
-                    { label: 'Account Name', value: document.getElementById('account_name').value },
-                    { label: 'Account No', value: document.getElementById('account_no').value },
-                    { label: 'Branch', value: document.getElementById('branch').value },
-                    { label: 'Branch Code', value: document.getElementById('branch_code').value },
-                    { label: 'Sort Code', value: document.getElementById('sort_code').value },
-                    { label: 'Swift Code', value: document.getElementById('swift_code').value }
+                    { label: 'Account Name', value: document.getElementById('account_name') ? document.getElementById('account_name').value : '' },
+                    { label: 'Account No', value: document.getElementById('account_no') ? document.getElementById('account_no').value : '' },
+                    { label: 'Branch', value: document.getElementById('branch') ? document.getElementById('branch').value : '' },
+                    { label: 'Branch Code', value: document.getElementById('branch_code') ? document.getElementById('branch_code').value : '' },
+                    { label: 'Sort Code', value: document.getElementById('sort_code') ? document.getElementById('sort_code').value : '' },
+                    { label: 'Swift Code', value: document.getElementById('swift_code') ? document.getElementById('swift_code').value : '' }
                 ].filter(function (field) {
                     return (field.value || '').trim() !== '';
                 });
 
+                const networkEl = document.getElementById('mobile_network_provider');
+                const mobilePhoneEl = document.getElementById('mobile_phone_no');
+                const mobileAccEl = document.getElementById('mobile_account_name');
+
                 const mobileFields = [
-                    { label: 'Network', value: document.getElementById('mobile_network_provider').value },
-                    { label: 'Phone', value: document.getElementById('mobile_phone_no').value },
-                    { label: 'Account', value: document.getElementById('mobile_account_name').value }
+                    { label: 'Network', value: networkEl ? networkEl.value : '' },
+                    { label: 'Phone', value: mobilePhoneEl ? mobilePhoneEl.value : '' },
+                    { label: 'Account', value: mobileAccEl ? mobileAccEl.value : '' }
                 ].filter(function (field) {
                     return (field.value || '').trim() !== '';
                 });
@@ -1099,15 +1140,39 @@
             templateSelect.addEventListener('change', updateTemplateInfo);
             updateTemplateInfo();
 
+            // Receipt payment method dropdown handling
+            const paymentMethodSelect = document.getElementById('payment_method_received');
+            const otherMethodGroup = document.getElementById('other-method-group');
+            const otherMethodInput = document.getElementById('payment_method_received_other');
+
+            function updatePaymentMethodSelection() {
+                if (!paymentMethodSelect || !otherMethodGroup) return;
+                if (paymentMethodSelect.value === 'Other') {
+                    otherMethodGroup.classList.add('show');
+                    if (otherMethodInput) otherMethodInput.focus();
+                } else {
+                    otherMethodGroup.classList.remove('show');
+                }
+            }
+
+            if (paymentMethodSelect) {
+                paymentMethodSelect.addEventListener('change', function() {
+                    updatePaymentMethodSelection();
+                    updatePreview();
+                });
+                updatePaymentMethodSelection();
+            }
+
             // Bank name dropdown handling
             const bankNameSelect = document.getElementById('bank_name');
             const otherBankInput = document.querySelector('.other-bank-input');
 
             function updateBankSelection() {
-                if (!bankNameSelect) return;
+                if (!bankNameSelect || !otherBankInput) return;
                 if (bankNameSelect.value === 'Other') {
                     otherBankInput.classList.add('show');
-                    document.getElementById('bank_name_other').focus();
+                    const otherBankField = document.getElementById('bank_name_other');
+                    if (otherBankField) otherBankField.focus();
                 } else {
                     otherBankInput.classList.remove('show');
                 }
@@ -1133,6 +1198,7 @@
             };
 
             function updatePhoneHint() {
+                if (!networkSelect || !phoneHint) return;
                 const provider = networkSelect.value;
                 if (provider && phonePatterns[provider]) {
                     phoneHint.textContent = phonePatterns[provider].hint;
@@ -1143,6 +1209,7 @@
             }
 
             function validatePhoneNumber() {
+                if (!networkSelect || !phoneInput) return true;
                 const provider = networkSelect.value;
                 const phone = phoneInput.value.trim();
 
@@ -1160,28 +1227,34 @@
                 return true;
             }
 
-            networkSelect.addEventListener('change', updatePhoneHint);
-            phoneInput.addEventListener('input', validatePhoneNumber);
-            phoneInput.addEventListener('blur', validatePhoneNumber);
+            if (networkSelect) {
+                networkSelect.addEventListener('change', updatePhoneHint);
+            }
+            if (phoneInput) {
+                phoneInput.addEventListener('input', validatePhoneNumber);
+                phoneInput.addEventListener('blur', validatePhoneNumber);
+            }
 
             // Validate on form submit
             document.getElementById('quotation-form').addEventListener('submit', function(e) {
-                const provider = networkSelect.value;
-                const phone = phoneInput.value.trim();
+                if (networkSelect && phoneInput) {
+                    const provider = networkSelect.value;
+                    const phone = phoneInput.value.trim();
 
-                if (provider && !phone) {
-                    e.preventDefault();
-                    phoneInput.style.borderColor = '#dc3545';
-                    alert('Please enter a mobile phone number for ' + provider);
-                    phoneInput.focus();
-                    return false;
-                }
+                    if (provider && !phone) {
+                        e.preventDefault();
+                        phoneInput.style.borderColor = '#dc3545';
+                        alert('Please enter a mobile phone number for ' + provider);
+                        phoneInput.focus();
+                        return false;
+                    }
 
-                if (provider && phone && !validatePhoneNumber()) {
-                    e.preventDefault();
-                    alert('Invalid phone number format for ' + provider + '.\n' + phonePatterns[provider].hint);
-                    phoneInput.focus();
-                    return false;
+                    if (provider && phone && !validatePhoneNumber()) {
+                        e.preventDefault();
+                        alert('Invalid phone number format for ' + provider + '.\n' + phonePatterns[provider].hint);
+                        phoneInput.focus();
+                        return false;
+                    }
                 }
 
                 return true;
