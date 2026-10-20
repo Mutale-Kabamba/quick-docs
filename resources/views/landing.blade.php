@@ -37,26 +37,81 @@
         .topbar {
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            gap: 16px;
             margin-bottom: 36px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            border-radius: 14px;
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-icon-wrap {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            box-shadow: 0 4px 10px -2px rgba(2, 132, 199, 0.4);
+            flex-shrink: 0;
+            transition: transform 200ms ease;
+        }
+
+        .brand-link:hover .brand-icon-wrap {
+            transform: scale(1.05);
         }
 
         .brand {
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            color: var(--accent);
+            color: #0f172a;
         }
 
         .brand-dot {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: var(--accent);
+        }
+
+        .topbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .topbar-nav-link {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--ink-3);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 150ms ease;
+        }
+
+        .topbar-nav-link:hover {
+            color: var(--ink);
+            background: rgba(241, 245, 249, 0.9);
         }
 
         .hero { margin-bottom: 24px; }
@@ -167,22 +222,82 @@
             color: var(--ink-3);
         }
 
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
         @keyframes rise {
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @media (max-width: 820px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+            .card:nth-child(3) {
+                grid-column: 1 / -1;
+            }
+        }
+
         @media (max-width: 600px) {
-            .cards { grid-template-columns: 1fr; }
+            body {
+                padding: 24px 14px;
+                justify-content: flex-start;
+            }
+            .topbar {
+                margin-bottom: 20px;
+            }
+            .hero {
+                margin-bottom: 18px;
+            }
+            .hero h1 {
+                font-size: 1.55rem;
+            }
+            .hero p {
+                font-size: 0.88rem;
+            }
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .card:nth-child(3) {
+                grid-column: auto;
+            }
+            .card {
+                padding: 16px;
+            }
+            .btn {
+                min-height: 44px;
+                font-size: 0.92rem;
+            }
         }
     </style>
 </head>
 <body>
     <main class="shell">
         <div class="topbar">
-            <div class="brand">
-                <span class="brand-dot"></span>
-                Quick Docs
-            </div>
+            <a href="{{ route('landing') }}" class="brand-link" title="Quick Docs Home">
+                <span class="brand-icon-wrap">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                </span>
+                <span class="brand">
+                    <span class="brand-dot"></span>
+                    Quick Docs
+                </span>
+            </a>
+
+            <nav class="topbar-nav" aria-label="Quick navigation">
+                <a href="{{ route('quotation.page') }}" class="topbar-nav-link">Quotation</a>
+                <a href="{{ route('invoice.page') }}" class="topbar-nav-link">Invoice</a>
+                <a href="{{ route('receipt.page') }}" class="topbar-nav-link">Receipt</a>
+            </nav>
         </div>
 
         <header class="hero">
