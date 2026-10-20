@@ -55,6 +55,8 @@
             gap: 10px;
             text-decoration: none;
             color: inherit;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .brand-icon-wrap {
@@ -78,25 +80,20 @@
         .brand {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
             font-size: 0.85rem;
             font-weight: 700;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
             color: #0f172a;
-        }
-
-        .brand-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .topbar-nav {
             display: flex;
             align-items: center;
             gap: 6px;
+            flex-shrink: 0;
         }
 
         .topbar-nav-link {
@@ -106,6 +103,7 @@
             text-decoration: none;
             padding: 6px 12px;
             border-radius: 8px;
+            white-space: nowrap;
             transition: all 150ms ease;
         }
 
@@ -243,11 +241,46 @@
 
         @media (max-width: 600px) {
             body {
-                padding: 24px 14px;
+                padding: 20px 12px;
                 justify-content: flex-start;
             }
             .topbar {
                 margin-bottom: 20px;
+                padding: 8px 12px;
+                gap: 8px;
+                border-radius: 12px;
+            }
+            .brand-link {
+                gap: 7px;
+                flex-shrink: 0;
+            }
+            .brand-icon-wrap {
+                width: 28px;
+                height: 28px;
+                border-radius: 7px;
+            }
+            .brand-icon-wrap svg {
+                width: 15px;
+                height: 15px;
+            }
+            .brand {
+                font-size: 0.76rem;
+                letter-spacing: 0.03em;
+            }
+            .topbar-nav {
+                gap: 2px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                flex-shrink: 1;
+            }
+            .topbar-nav::-webkit-scrollbar {
+                display: none;
+            }
+            .topbar-nav-link {
+                font-size: 0.74rem;
+                padding: 5px 8px;
+                border-radius: 6px;
             }
             .hero {
                 margin-bottom: 18px;
@@ -273,6 +306,31 @@
                 font-size: 0.92rem;
             }
         }
+
+        @media (max-width: 380px) {
+            body {
+                padding: 16px 10px;
+            }
+            .topbar {
+                padding: 7px 10px;
+                gap: 6px;
+            }
+            .brand-link {
+                gap: 6px;
+            }
+            .brand-icon-wrap {
+                width: 26px;
+                height: 26px;
+            }
+            .brand {
+                font-size: 0.72rem;
+                letter-spacing: 0.02em;
+            }
+            .topbar-nav-link {
+                font-size: 0.7rem;
+                padding: 4px 6px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -288,7 +346,6 @@
                     </svg>
                 </span>
                 <span class="brand">
-                    <span class="brand-dot"></span>
                     Quick Docs
                 </span>
             </a>
