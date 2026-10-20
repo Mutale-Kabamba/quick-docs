@@ -1,172 +1,378 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{{ $doc_title ?? $doc_type }} - {{ $quote_no }}</title>
     <style>
-        body { font-family: 'Helvetica', Arial, sans-serif; font-size: 12px; color: #22313f; margin-bottom: 68px; }
-        table { width: 100%; border-collapse: collapse; }
-        .header-row td { vertical-align: top; }
-        .brand { font-size: 24px; font-weight: bold; color: #1f497d; margin: 0; }
-        .title { font-size: 28px; font-weight: bold; text-align: right; letter-spacing: 1px; color: #1f497d; margin: 0; }
-        .logo-wrap { text-align: right; margin-bottom: 8px; }
-        .logo { width: 60px; height: 60px; object-fit: contain; }
-        .logo-fallback {
-            width: 60px;
-            height: 60px;
-            display: inline-block;
-            line-height: 60px;
-            text-align: center;
-            border-radius: 50%;
-            background: #1f497d;
-            color: #fff;
+        @page {
+            margin: 25px 30px 45px 30px;
+        }
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            font-size: 11px;
+            color: #2e1065;
+            margin: 0;
+            padding: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .header-table td {
+            vertical-align: top;
+        }
+        .section-label {
+            color: #6b21a8;
+            font-weight: 800;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+        .party-name {
+            font-weight: 800;
+            font-size: 13px;
+            color: #1e1b4b;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+        .party-details {
+            font-size: 11px;
+            line-height: 1.45;
+            color: #4b5563;
+        }
+        .doc-title {
+            color: #6b21a8;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            margin: 12px 0 10px 0;
+            text-align: right;
+            text-transform: uppercase;
+        }
+        .meta-table td {
+            padding: 3px 0;
+            font-size: 11px;
+        }
+        .meta-label {
+            color: #6b21a8;
             font-weight: bold;
-            letter-spacing: 1px;
+            padding-right: 12px;
+            text-align: left;
         }
-        .meta-card {
-            border: 1px solid #d9e2ec;
-            background: #f8fbff;
+        .meta-val {
+            text-align: right;
+            font-weight: bold;
+            color: #1e1b4b;
+        }
+        .logo-placeholder {
+            display: inline-block;
+            border: 1.5px solid #cbd5e1;
             border-radius: 6px;
-            padding: 10px;
+            padding: 10px 20px;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
         }
-        .meta-label { font-weight: bold; color: #49627c; text-transform: uppercase; font-size: 10px; margin-bottom: 4px; }
-        .doc-meta td { padding: 6px 8px; border-bottom: 1px solid #d9e2ec; }
-        .doc-meta td:first-child { width: 50%; color: #49627c; font-weight: bold; }
-        .doc-meta tr:last-child td { border-bottom: none; }
-        .items-table { margin-top: 18px; border: 1px solid #d9e2ec; }
-        .items-table th { background-color: #eef4fa; color: #28435e; border-bottom: 1px solid #d9e2ec; padding: 8px; font-size: 11px; text-align: left; }
-        .items-table td { border-bottom: 1px solid #e5edf5; padding: 8px; }
-        .items-table tbody tr:last-child td { border-bottom: none; }
-        .totals-table { width: 42%; margin-left: auto; margin-top: 14px; border: 1px solid #d9e2ec; }
-        .totals-table td { padding: 8px 10px; border-bottom: 1px solid #e5edf5; }
-        .totals-table tr:last-child td { border-bottom: none; font-weight: bold; color: #1f497d; background: #eef4fa; }
+        .items-table {
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border: 1px solid #e9d5ff;
+        }
+        .items-table th {
+            background-color: #6b21a8;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 9px 12px;
+            text-align: left;
+            border-right: 1px solid #7e22ce;
+            text-transform: uppercase;
+        }
+        .items-table th:last-child {
+            border-right: none;
+        }
+        .items-table td {
+            padding: 8px 12px;
+            font-size: 11px;
+            color: #374151;
+            border-right: 1px solid #f3e8ff;
+            border-bottom: 1px solid #f3e8ff;
+            vertical-align: top;
+            background-color: #ffffff;
+        }
+        .items-table td:last-child {
+            border-right: none;
+        }
+        .totals-table {
+            width: 42%;
+            margin-left: auto;
+            border: 1px solid #e9d5ff;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .totals-table td {
+            padding: 7px 12px;
+            font-size: 11px;
+            border: 1px solid #e9d5ff;
+            color: #374151;
+        }
+        .totals-table .total-highlight {
+            background-color: #f3e8ff;
+            color: #581c87;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .terms-title {
+            color: #6b21a8;
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            margin-top: 25px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .terms-content {
+            font-size: 11px;
+            color: #374151;
+            line-height: 1.5;
+        }
         .footer {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
+            border-top: 1px solid #e5e7eb;
             padding-top: 10px;
-            border-top: 1px solid #ddd;
-            font-size: 9px;
-            color: #888;
-            text-align: center;
-            background: #fff;
+            font-size: 11px;
+            color: #4b5563;
+            background-color: #ffffff;
         }
     </style>
 </head>
 <body>
-    <table class="header-row">
+    <!-- Top Header: FROM & TO on left, Logo & Quote title & Meta on right -->
+    <table class="header-table">
         <tr>
-            <td style="width: 58%;">
-                <h2 class="brand">{{ $seller_name ?? 'Ori Studio Limited' }}</h2>
-                <div>{{ $seller_address }}</div>
-                <div>Phone: {{ $seller_phone }}</div>
-                @if(!empty($seller_email))<div>{{ $seller_email }}</div>@endif
+            <td style="width: 55%; padding-right: 20px;">
+                <!-- FROM Block -->
+                <div class="section-label">FROM</div>
+                <div class="party-name">{{ $seller_name }}</div>
+                <div class="party-details">
+                    @if(!empty($seller_address))<div>{!! nl2br(e($seller_address)) !!}</div>@endif
+                    @if(!empty($seller_phone))<div>Phone: {{ $seller_phone }}</div>@endif
+                    @if(!empty($seller_email))<div>Email: {{ $seller_email }}</div>@endif
+                    @if(!empty($seller_tpin))<div>TPIN: {{ $seller_tpin }}</div>@endif
+                    @if(!empty($seller_pacra))<div>PACRA: {{ $seller_pacra }}</div>@endif
+                </div>
+
+                <div style="height: 18px;"></div>
+
+                <!-- TO Block -->
+                <div class="section-label">TO</div>
+                <div class="party-name" style="text-transform: none;">{{ $customer_name }}</div>
+                <div class="party-details">
+                    @if(!empty($customer_address))<div>{!! nl2br(e($customer_address)) !!}</div>@endif
+                    @if(!empty($customer_phone))<div>Phone: {{ $customer_phone }}</div>@endif
+                    @if(!empty($customer_email))<div>Email: {{ $customer_email }}</div>@endif
+                    @if(!empty($customer_tpin))<div>TPIN: {{ $customer_tpin }}</div>@endif
+                </div>
             </td>
-            <td style="width: 42%;">
-                @if(!empty($logo_data_uri) || !empty($logo_file_uri) || !empty($logo_abs_path))
-                <div class="logo-wrap">
-                    @if(!empty($logo_data_uri))
-                        <img src="{{ $logo_data_uri }}" class="logo" alt="logo" />
-                    @elseif(!empty($logo_file_uri))
-                        <img src="{{ $logo_file_uri }}" class="logo" alt="logo" />
-                    @elseif(!empty($logo_abs_path))
-                        <img src="{{ $logo_abs_path }}" class="logo" alt="logo" />
-                    @endif
+
+            <td style="width: 45%; text-align: right;">
+                <!-- Logo -->
+                @if(!empty($logo_data_uri))
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <img src="{{ $logo_data_uri }}" style="max-height: 60px; max-width: 170px; object-fit: contain;" alt="Logo">
+                </div>
+                @elseif(!empty($logo_file_uri))
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <img src="{{ $logo_file_uri }}" style="max-height: 60px; max-width: 170px; object-fit: contain;" alt="Logo">
+                </div>
+                @elseif(!empty($logo_abs_path))
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <img src="{{ $logo_abs_path }}" style="max-height: 60px; max-width: 170px; object-fit: contain;" alt="Logo">
                 </div>
                 @endif
-                <div class="title">{{ strtoupper($doc_type) }}</div>
-                    <table class="doc-meta" style="margin-top: 10px;">
-                    <tr><td>Date</td><td style="text-align: right;">{{ \Carbon\Carbon::parse($quote_date)->format('d-m-Y') }}</td></tr>
-                    <tr><td>{{ strtoupper($doc_type) }} #</td><td style="text-align: right;">{{ $quote_no }}</td></tr>
-                    @if($doc_type === 'Invoice' && !empty($expiry_date))
-                    <tr><td>Due Date</td><td style="text-align: right;">{{ \Carbon\Carbon::parse($expiry_date)->format('d-m-Y') }}</td></tr>
-                    @elseif($doc_type === 'Quotation' && !empty($expiry_date))
-                    <tr><td>Expiry Date</td><td style="text-align: right;">{{ \Carbon\Carbon::parse($expiry_date)->format('d-m-Y') }}</td></tr>
-                    @endif
+
+                <!-- Big Purple Title -->
+                <div class="doc-title">{{ $doc_title ?? $doc_type }}</div>
+
+                <!-- Meta Table -->
+                <table class="meta-table" style="width: auto; margin-left: auto;">
+                    <tr>
+                        <td class="meta-label">{{ $doc_type }} #:</td>
+                        <td class="meta-val">{{ $quote_no }}</td>
+                    </tr>
+                    <tr>
+                        <td class="meta-label">{{ $doc_type }} Date:</td>
+                        <td class="meta-val">{{ \Carbon\Carbon::parse($quote_date)->format('m/d/Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="meta-label">{{ $doc_type === 'Invoice' ? 'Due Date:' : 'Due Date:' }}</td>
+                        <td class="meta-val">
+                            {{ !empty($expiry_date) ? \Carbon\Carbon::parse($expiry_date)->format('m/d/Y') : 'On Receipt' }}
+                        </td>
+                    </tr>
                 </table>
             </td>
         </tr>
     </table>
 
-    <table style="margin-top: 16px;">
-        <tr>
-            <td style="width: 100%; vertical-align: top;">
-                <div class="meta-card">
-                    <div class="meta-label">Customer</div>
-                    <div><strong>{{ $customer_name }}</strong></div>
-                    <div>{{ $customer_address }}</div>
-                    <div>{{ $customer_phone }}</div>
-                    @if(!empty($customer_email))<div>{{ $customer_email }}</div>@endif
-                </div>
-            </td>
-        </tr>
-    </table>
-
+    <!-- Items Table: Solid Purple Header -->
     <table class="items-table">
         <thead>
             <tr>
-                <th style="width: 55%; text-align: left;">Description</th>
-                <th style="width: 10%;">QTY</th>
-                <th style="width: 15%;">UNIT PRICE</th>
-                <th style="width: 20%;">AMOUNT</th>
+                <th style="width: 10%; text-align: center;">QTY</th>
+                <th style="width: 54%;">Description</th>
+                <th style="width: 18%; text-align: right;">Unit Price</th>
+                <th style="width: 18%; text-align: right;">Amount</th>
             </tr>
         </thead>
         <tbody>
             @foreach($items as $item)
             <tr>
-                <td>{{ $item['description'] }}</td>
-                <td style="text-align: center;">{{ $item['qty'] }}</td>
-                <td style="text-align: right;">ZMW {{ number_format($item['price'], 2) }}</td>
-                <td style="text-align: right;">ZMW {{ number_format($item['line_total'], 2) }}</td>
+                <td style="text-align: center; font-weight: 500;">{{ $item['qty'] }}</td>
+                <td>
+                    <div style="font-weight: 600; color: #1f2937;">{!! nl2br(e($item['description'])) !!}</div>
+                    @if(!empty($item['image_data_uri']))
+                    <div style="margin-top: 5px;">
+                        <img src="{{ $item['image_data_uri'] }}" style="max-height: 48px; max-width: 65px; object-fit: contain; border: 1px solid #e9d5ff; border-radius: 3px;" alt="Item image">
+                    </div>
+                    @endif
+                </td>
+                <td style="text-align: right;">{{ $currency_symbol ?? 'ZMW' }} {{ number_format($item['price'], 2) }}</td>
+                <td style="text-align: right; font-weight: 600;">{{ $currency_symbol ?? 'ZMW' }} {{ number_format($item['line_total'], 2) }}</td>
             </tr>
             @endforeach
         </tbody>
     </table>
 
-    <table class="totals-table">
+    <!-- Totals Area with Total (in words) -->
+    <table style="width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px;">
         <tr>
-            <td>Subtotal</td>
-            <td style="text-align: right;">ZMW {{ number_format($sub_total, 2) }}</td>
-        </tr>
-        @if($vat_registered)
-        <tr>
-            <td>VAT ({{ $vat_rate }}%)</td>
-            <td style="text-align: right;">ZMW {{ number_format($vat_amount, 2) }}</td>
-        </tr>
-        @endif
-        <tr>
-            <td>Total {{ strtoupper($doc_type) }}</td>
-            <td style="text-align: right;">ZMW {{ number_format($grand_total, 2) }}</td>
+            <td style="vertical-align: top; width: 52%; padding-right: 15px;">
+                @if(!empty($total_in_words))
+                <div style="padding: 8px 12px; background-color: #faf5ff; border: 1px solid #e9d5ff; border-radius: 4px;">
+                    <div style="font-size: 10px; font-weight: 800; color: #6b21a8; text-transform: uppercase; margin-bottom: 2px;">Total (in words)</div>
+                    <div style="font-size: 11px; font-weight: bold; color: #1e1b4b; font-style: italic;">{{ $total_in_words }}</div>
+                </div>
+                @endif
+            </td>
+            <td style="vertical-align: top; width: 48%;">
+                <table class="totals-table" style="width: 100%; margin: 0;">
+                    <tr>
+                        <td style="width: 50%;">Subtotal</td>
+                        <td style="text-align: right; width: 50%;">{{ $currency_symbol ?? 'ZMW' }} {{ number_format($sub_total, 2) }}</td>
+                    </tr>
+                    @if(!empty($discount_amount) && $discount_amount > 0)
+                    <tr>
+                        <td>Discount {{ ($discount_type ?? 'percent') === 'percent' ? '('.($discount_value + 0).'%)' : '' }}</td>
+                        <td style="text-align: right; color: #dc2626;">- {{ $currency_symbol ?? 'ZMW' }} {{ number_format($discount_amount, 2) }}</td>
+                    </tr>
+                    @endif
+                    @if($vat_registered)
+                    <tr>
+                        <td>VAT ({{ $vat_rate }}%)</td>
+                        <td style="text-align: right;">{{ $currency_symbol ?? 'ZMW' }} {{ number_format($vat_amount, 2) }}</td>
+                    </tr>
+                    @endif
+                    <tr class="total-highlight">
+                        <td>Total</td>
+                        <td style="text-align: right;">{{ $currency_symbol ?? 'ZMW' }} {{ number_format($grand_total, 2) }}</td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 
-    <div style="clear: both; margin-top: 22px;">
-        @if($doc_type === 'Receipt')
-        <div class="meta-card" style="margin-bottom: 12px;">
-            <div class="meta-label">Payment Received</div>
-            @if(!empty($payment_method_received))
-            <div style="margin-bottom: 8px;"><strong>Paid Via:</strong> {{ $payment_method_received }}</div>
-            @endif
-            <div><span style="display: inline-block; padding: 4px 10px; background-color: #e6f4ea; color: #137333; border: 1px solid #137333; border-radius: 4px; font-weight: bold; font-size: 11px; letter-spacing: 0.5px;">PAID IN FULL</span></div>
-        </div>
-        @else
-        @if(!empty($payment_details))
-        <div class="meta-card" style="margin-bottom: 12px;">
-            <div class="meta-label">Payment Details</div>
-            <div style="white-space: pre-wrap;">{{ $payment_details }}</div>
-        </div>
-        @endif
-        @endif
+    <!-- Terms, Payment Details, and Signature -->
+    <table style="width: 100%; margin-top: 10px;">
+        <tr>
+            <td style="width: 65%; vertical-align: top; padding-right: 20px;">
+                @if($doc_type === 'Receipt')
+                    <div style="padding: 6px 10px; background-color: #f3e8ff; border: 1px solid #d8b4fe; border-radius: 4px; color: #581c87; margin-bottom: 8px; font-size: 11px;">
+                        <strong>Payment Received:</strong> {{ $payment_method_received ?? 'Direct' }} &mdash; <strong>PAID IN FULL</strong>
+                    </div>
+                @endif
 
-        @if(!empty($terms_conditions))
-        <div class="meta-card">
-            <div class="meta-label">{{ $doc_type === 'Receipt' ? 'Notes' : 'Terms &amp; Conditions' }}</div>
-            <div style="white-space: pre-wrap;">{{ $terms_conditions }}</div>
-        </div>
-        @endif
-    </div>
+                @if(!empty($terms_conditions))
+                    <div class="terms-title">TERMS AND CONDITIONS</div>
+                    <div class="terms-content">
+                        <div>{!! nl2br(e($terms_conditions)) !!}</div>
+                    </div>
+                @endif
 
+                @if(!empty($account_name))
+                    <div style="margin-top: 8px; font-size: 11px; color: #374151;">
+                        All checks to be made out to: <strong>{{ $account_name }}</strong>
+                    </div>
+                @endif
+
+                @if(!empty($payment_details))
+                    <div style="margin-top: 10px; padding: 6px 10px; background-color: #faf5ff; border: 1px solid #e9d5ff; border-radius: 4px; font-size: 10px;">
+                        <strong>Payment Details:</strong><br>
+                        {!! nl2br(e($payment_details)) !!}
+                    </div>
+                @endif
+
+                @if(!empty($notes))
+                    <div style="margin-top: 10px; padding: 6px 10px; background-color: #faf5ff; border: 1px solid #e9d5ff; border-radius: 4px; font-size: 10px; color: #374151;">
+                        <strong style="color: #6b21a8;">Notes:</strong><br>
+                        {!! nl2br(e($notes)) !!}
+                    </div>
+                @endif
+
+                @if(!empty($additional_info))
+                    <div style="margin-top: 10px; padding: 6px 10px; background-color: #faf5ff; border: 1px solid #e9d5ff; border-radius: 4px; font-size: 10px; color: #374151;">
+                        <strong style="color: #6b21a8;">Additional Information:</strong><br>
+                        {!! nl2br(e($additional_info)) !!}
+                    </div>
+                @endif
+
+                <div style="margin-top: 12px; font-weight: bold; color: #4b5563; font-size: 11px;">
+                    Thank you for your business!
+                </div>
+            </td>
+
+            <td style="width: 35%; vertical-align: top; text-align: center;">
+                @if(!empty($signature_data_uri) || !empty($signee_name))
+                <div style="margin-top: 20px; display: inline-block; text-align: center; min-width: 170px;">
+                    @if(!empty($signature_data_uri))
+                    <div style="margin-bottom: 4px;">
+                        <img src="{{ $signature_data_uri }}" style="max-height: 50px; max-width: 160px; object-fit: contain;" alt="Signature">
+                    </div>
+                    @endif
+                    <div style="border-top: 1.5px solid #6b21a8; padding-top: 4px; font-size: 11px; font-weight: bold; color: #1e1b4b;">
+                        {{ !empty($signee_name) ? $signee_name : 'Authorized Signature' }}
+                    </div>
+                </div>
+                @endif
+            </td>
+        </tr>
+    </table>
+
+    <!-- 3-Column Contact Footer -->
     <div class="footer">
-        System time generated: {{ $generated_at ?? now()->format('Y-m-d H:i:s') }} | {{ $seller_name ?? 'Ori Studio Limited' }} Business Docs
+        <table>
+            <tr>
+                <td style="width: 33%; text-align: left;">
+                    Tel: {{ $seller_phone }}
+                </td>
+                <td style="width: 34%; text-align: center;">
+                    @if(!empty($seller_email))Email: {{ $seller_email }}@endif
+                </td>
+                <td style="width: 33%; text-align: right;">
+                    @if(!empty($seller_pacra))
+                        Reg: {{ $seller_pacra }}
+                    @else
+                        quick-docs.io
+                    @endif
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>
